@@ -12,6 +12,28 @@ export const cartreducer = (state, action) => {
       }
       return [...state, { ...action.payload, quantity: 1 }];
 
+    case "INCREASE_QTY":
+      return state.map((item) =>
+        item._id === action.payload
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+
+    case "DECREASE_QTY":
+      return state
+        .map((item) =>
+          item._id === action.payload
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0);
+
+    case "REMOVE_ITEM":
+      return state.filter((item) => item._id !== action.payload);
+
+    case "CLEAR_CART":
+      return [];
+
     default:
       return state;
   }

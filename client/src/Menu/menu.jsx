@@ -5,7 +5,8 @@ import { CartContext } from "../Context/CartContext.jsx";
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   const [errors, setErrors] = useState("");
-  const { addtocart } = useContext(CartContext);
+  const { cartItem, addtocart, increaseqty, decreaseqty } =
+    useContext(CartContext);
   const fetchmenu = async () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/menu`);
@@ -14,6 +15,20 @@ const Menu = () => {
       setErrors(e.response.data.message);
       setMenu([]);
     }
+  };
+  const getQty = (id) => {
+    const item = cartItem.find((i) => i._id === id);
+    return item ? item.quantity : 0;
+  };
+  const handleAddToCartFirstTime = (item) => {
+    addtocart(item);
+  };
+
+  const handleinccount = (_id) => {
+    increaseqty(_id);
+  };
+  const handledeccount = (_id) => {
+    decreaseqty(_id);
   };
   useEffect(() => {
     fetchmenu();
@@ -55,12 +70,34 @@ const Menu = () => {
                 <p className="mt-1 text-[14px] text-gray-300 font-light leading-tight">
                   {i.decription}
                 </p>
-                <button
-                  className="mt-3 w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-2 rounded-xl shadow-md transition-all duration-200 cursor-pointer"
-                  onClick={() => addtocart(i)}
-                >
-                  Add to Cart
-                </button>
+                {getQty(i._id) > 0 ? (
+                  <div className="flex items-center gap-3 mt-3">
+                    <button
+                      className="px-3 py-1 bg-gray-700 rounded"
+                      onClick={() => handledeccount(i._id)}
+                    >
+                      -
+                    </button>
+
+                    <span className="font-semibold text-lg">
+                      {getQty(i._id)}
+                    </span>
+
+                    <button
+                      className="px-3 py-1 bg-gray-700 rounded"
+                      onClick={() => handleinccount(i._id)}
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="mt-3 w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-2 rounded-xl"
+                    onClick={() => handleAddToCartFirstTime(i)}
+                  >
+                    ADD TO CART
+                  </button>
+                )}
               </div>
             </div>
           ))}
