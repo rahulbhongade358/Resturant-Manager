@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import { getMenu, postMenu } from "./controllers/menu.js";
+import { getOrder, postOrder } from "./controllers/order.js";
 
 dotenv.config();
 const app = express();
@@ -15,7 +16,8 @@ app.get("/health", (req, res) => {
 
 app.post("/uploadmenu", postMenu);
 app.get("/menu", getMenu);
-
+app.post("/order", postOrder);
+app.get("/allorders", getOrder);
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_URL);

@@ -1,11 +1,56 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "../Context/CartContext.jsx";
 import Navbar from "../Component/Navbar.jsx";
-
+import axios from "axios";
 const CartPage = () => {
   const { cartItem, increaseqty, decreaseqty, removeitem, clearcart } =
     useContext(CartContext);
-  console.log(cartItem);
+  const [customerData, setCustomerData] = useState({
+    customername: "",
+    contactnumber: "",
+    tableno: "",
+  });
+  const totalamount = cartItem.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+  const orderitem = cartItem.map((item) => ({
+    itemId: item._id,
+    Dishname: item.Dishname,
+    price: item.price,
+    quantity: item.quantity,
+  }));
+  const orderData = {
+    customerName: customerData.customername,
+    customerContact: customerData.contactnumber,
+    tableNumber: customerData.tableno,
+    orderItems: orderitem,
+    totalAmount: totalamount,
+  };
+  const postOrder = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/order`,
+        orderData
+      );
+
+      console.log("Order Placed Successfully:", response.data);
+
+      alert("Order Placed Successfully!");
+
+      clearcart();
+      setCustomerData({
+        customername: "",
+        contactnumber: "",
+        tableno: "",
+      });
+    } catch (error) {
+      console.error(
+        "Error placing order:",
+        error.response?.data || error.message
+      );
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -14,7 +59,6 @@ const CartPage = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           🛒 Your Cart
         </h1>
-
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
           <table className="w-full text-sm text-gray-700">
             <thead className="bg-gray-200 text-gray-800">
@@ -38,7 +82,6 @@ const CartPage = () => {
                     {item.Dishname}
                   </td>
 
-                  {/* Qty controls */}
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-3">
                       <button
@@ -86,32 +129,80 @@ const CartPage = () => {
                 </td>
                 <td className="px-6 py-3 text-center text-lg">__</td>
                 <td className="px-6 py-3 text-center text-lg">
-                  ₹{" "}
-                  {cartItem.reduce(
-                    (sum, item) => sum + item.quantity * item.price,
-                    0
-                  )}
+                  ₹ {totalamount}
                 </td>
                 <td></td>
               </tr>
             </tfoot>
           </table>
         </div>
-
         {cartItem.length > 0 && (
-          <div className="flex justify-end mt-6 space-x-4">
-            <button
-              onClick={clearcart}
-              className="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
-            >
-              Clear Cart
-            </button>
-            <button
-              onClick={clearcart}
-              className="px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600"
-            >
-              Place Order
-            </button>
+          <div>
+            <form className="max-w-md mx-auto mt-8">
+              <div className="mb-5">
+                <input
+                  type="text"
+                  placeholder="Customer Name"
+                  value={customerData.customername}
+                  onChange={(e) =>
+                    setCustomerData({
+                      ...customerData,
+                      customername: e.target.value,
+                    })
+                  }
+                  className="w-full border-b-2 p-2"
+                  required
+                />
+              </div>
+
+              <div className="mb-5">
+                <input
+                  type="text"
+                  placeholder="Contact Number"
+                  value={customerData.contactnumber}
+                  onChange={(e) =>
+                    setCustomerData({
+                      ...customerData,
+                      contactnumber: e.target.value,
+                    })
+                  }
+                  className="w-full border-b-2 p-2"
+                  required
+                />
+              </div>
+
+              <div className="mb-5">
+                <input
+                  type="text"
+                  placeholder="Table Number"
+                  value={customerData.tableno}
+                  onChange={(e) =>
+                    setCustomerData({
+                      ...customerData,
+                      tableno: e.target.value,
+                    })
+                  }
+                  className="w-full border-b-2 p-2"
+                  required
+                />
+              </div>
+            </form>
+
+            <div className="flex justify-end mt-6 space-x-4">
+              <button
+                onClick={clearcart}
+                className="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
+              >
+                Clear Cart
+              </button>
+
+              <button
+                onClick={postOrder}
+                className="px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600"
+              >
+                Place Order
+              </button>
+            </div>
           </div>
         )}
       </div>
