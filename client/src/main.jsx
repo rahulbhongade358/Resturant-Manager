@@ -7,6 +7,7 @@ import Allorder from "./Admin/allorder.jsx";
 import Addmenu from "./Admin/addmenu.jsx";
 import { CartProvider } from "./Context/CartContext.jsx";
 import CartPage from "./Pages/CartPage.jsx";
+import MyOrder from "./Pages/MyOrder.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <CartProvider>
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/addmenu" element={<Addmenu />} />
         <Route path="/cartpage" element={<CartPage />} />
         <Route path="/allorder" element={<Allorder />} />
+        <Route path="/myorder" element={<MyOrder />} />
       </Routes>
     </CartProvider>
   </Router>

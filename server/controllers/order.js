@@ -7,13 +7,7 @@ const postOrder = async (req, res) => {
     orderItems,
     totalAmount,
   } = req.body;
-  if (
-    !customerName ||
-    !customerContact ||
-    !tableNumber ||
-    !orderItems ||
-    !totalAmount
-  ) {
+  if (!customerName || !tableNumber || !orderItems || !totalAmount) {
     return res.status(400).json({
       success: false,
       data: null,
@@ -54,4 +48,24 @@ const getOrder = async (req, res) => {
   });
 };
 
-export { postOrder, getOrder };
+const getCustomerOrder = async (req, res) => {
+  const { orderId } = req.query;
+  try {
+    const getOrder = await Order.find({ customerContact: orderId });
+    res.json({
+      status: true,
+      data: getOrder,
+      message: "Customer Order fetched successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message:
+        "No order found. Please place an order first or add your contact number to fetch the order.",
+      error: error.message,
+    });
+  }
+};
+
+export { postOrder, getOrder, getCustomerOrder };

@@ -12,6 +12,7 @@ const Navbar = () => {
       <Link to="/addmenu">Add Menu</Link>
       <Link to="/allorder">Order</Link>
       <Link to="/cartpage">Cart ({totalItems})</Link>
+      <Link to="/myorder">My Order</Link>
     </div>
   );
 };

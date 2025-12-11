@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../Context/CartContext.jsx";
 import Navbar from "../Component/Navbar.jsx";
 import axios from "axios";
+
 const CartPage = () => {
   const { cartItem, increaseqty, decreaseqty, removeitem, clearcart } =
     useContext(CartContext);
@@ -10,6 +11,15 @@ const CartPage = () => {
     contactnumber: "",
     tableno: "",
   });
+  useEffect(() => {
+    const savedContact = localStorage.getItem("MyOrderId");
+    const savedName = localStorage.getItem("CustomerName");
+    setCustomerData({
+      customername: savedName || "",
+      contactnumber: savedContact || "",
+      tableno: "",
+    });
+  }, []);
   const totalamount = cartItem.reduce(
     (sum, item) => sum + item.quantity * item.price,
     0
@@ -34,9 +44,10 @@ const CartPage = () => {
         orderData
       );
 
-      console.log("Order Placed Successfully:", response.data);
+      console.log("Order Response:", response.data);
 
-      alert("Order Placed Successfully!");
+      localStorage.setItem("MyOrderId", customerData.contactnumber);
+      localStorage.setItem("CustomerName", customerData.customername);
 
       clearcart();
       setCustomerData({
@@ -78,15 +89,13 @@ const CartPage = () => {
             <tbody>
               {cartItem.map((item) => (
                 <tr key={item._id} className="border-b">
-                  <td className="px-6 py-4 font-medium text-gray-900">
-                    {item.Dishname}
-                  </td>
+                  <td className="px-6 py-4 font-medium">{item.Dishname}</td>
 
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-3">
                       <button
                         onClick={() => decreaseqty(item._id)}
-                        className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                        className="px-2 py-1 bg-gray-300 rounded"
                       >
                         -
                       </button>
@@ -95,24 +104,22 @@ const CartPage = () => {
 
                       <button
                         onClick={() => increaseqty(item._id)}
-                        className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                        className="px-2 py-1 bg-gray-300 rounded"
                       >
                         +
                       </button>
                     </div>
                   </td>
 
-                  <td className="px-6 py-4 text-center font-semibold">
-                    ₹ {item.price}
-                  </td>
-                  <td className="px-6 py-4 text-center font-semibold">
+                  <td className="px-6 py-4 text-center">₹ {item.price}</td>
+                  <td className="px-6 py-4 text-center">
                     ₹ {item.price * item.quantity}
                   </td>
 
                   <td className="px-6 py-4 text-center">
                     <button
                       onClick={() => removeitem(item._id)}
-                      className="text-red-600 hover:text-red-800 font-semibold"
+                      className="text-red-600 font-semibold"
                     >
                       Remove
                     </button>
@@ -121,13 +128,13 @@ const CartPage = () => {
               ))}
             </tbody>
 
-            <tfoot className="bg-gray-100 text-gray-800 font-semibold">
+            <tfoot className="bg-gray-100 font-semibold">
               <tr>
                 <td className="px-6 py-3 text-lg">Total</td>
                 <td className="px-6 py-3 text-center text-lg">
                   {cartItem.reduce((sum, item) => sum + item.quantity, 0)}
                 </td>
-                <td className="px-6 py-3 text-center text-lg">__</td>
+                <td className="px-6 py-3 text-center">—</td>
                 <td className="px-6 py-3 text-center text-lg">
                   ₹ {totalamount}
                 </td>
@@ -138,11 +145,10 @@ const CartPage = () => {
         </div>
         {cartItem.length > 0 && (
           <div>
-            <form className="max-w-md mx-auto mt-8">
-              <div className="mb-5">
+            <form className="max-w-md mx-auto mt-5">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
-                  placeholder="Customer Name"
                   value={customerData.customername}
                   onChange={(e) =>
                     setCustomerData({
@@ -150,15 +156,17 @@ const CartPage = () => {
                       customername: e.target.value,
                     })
                   }
-                  className="w-full border-b-2 p-2"
+                  className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                  placeholder=" "
                   required
                 />
+                <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                  Customer Name
+                </label>
               </div>
-
-              <div className="mb-5">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
-                  placeholder="Contact Number"
                   value={customerData.contactnumber}
                   onChange={(e) =>
                     setCustomerData({
@@ -166,15 +174,17 @@ const CartPage = () => {
                       contactnumber: e.target.value,
                     })
                   }
-                  className="w-full border-b-2 p-2"
+                  className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                  placeholder=" "
                   required
                 />
+                <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                  Contact Number
+                </label>
               </div>
-
-              <div className="mb-5">
+              <div className="relative z-0 w-full mb-5 group">
                 <input
                   type="text"
-                  placeholder="Table Number"
                   value={customerData.tableno}
                   onChange={(e) =>
                     setCustomerData({
@@ -182,23 +192,25 @@ const CartPage = () => {
                       tableno: e.target.value,
                     })
                   }
-                  className="w-full border-b-2 p-2"
+                  className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                  placeholder=" "
                   required
                 />
+                <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
+                  Table Number
+                </label>
               </div>
             </form>
-
             <div className="flex justify-end mt-6 space-x-4">
               <button
                 onClick={clearcart}
-                className="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600"
+                className="px-4 py-2 bg-red-500 text-white rounded"
               >
                 Clear Cart
               </button>
-
               <button
                 onClick={postOrder}
-                className="px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600"
+                className="px-4 py-2 bg-green-500 text-white rounded"
               >
                 Place Order
               </button>
