@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { getMenu, postMenu } from "./controllers/menu.js";
 import { getCustomerOrder, getOrder, postOrder } from "./controllers/order.js";
+import { postLogin, postSignUp } from "./controllers/user.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,8 @@ app.get("/menu", getMenu);
 app.post("/order", postOrder);
 app.get("/allorders", getOrder);
 app.get("/order", getCustomerOrder);
+app.post("/login", postLogin);
+app.post("/signup", postSignUp);
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_URL);
