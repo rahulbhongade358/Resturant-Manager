@@ -14,20 +14,17 @@ function Login() {
         loginuser
       );
 
-      // ✔ Staff roles only (Admin, Waiter, Chef)
       if (response?.data?.success) {
         localStorage.setItem("userlogin", JSON.stringify(response.data.user));
         window.location.href = "/";
         return;
       }
     } catch (err) {
-      // ❌ Customer trying to login → Access Denied
       if (err.response?.status === 403) {
         window.location.href = "/unauthorized";
         return;
       }
 
-      // ❌ Wrong number/password
       if (err.response?.status === 401) {
         window.location.href = "/unauthorized";
         return;
@@ -71,18 +68,8 @@ function Login() {
             Login
           </button>
         </div>
-
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Don’t have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-orange-500 font-medium hover:underline"
-          >
-            Create one
-          </Link>
-        </p>
       </div>
-      <div>
+      <div className="absolute bottom-30 text-blue-600 underline hover:text-blue-800">
         <Link to="/">Home</Link>
       </div>
     </div>

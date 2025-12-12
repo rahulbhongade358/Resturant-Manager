@@ -53,21 +53,16 @@ const postSignUp = async (req, res) => {
 
 const postLogin = async (req, res) => {
   const { phone, password } = req.body;
-
-  // 1. Validate
   if (!phone || !password) {
     return res.status(400).json({
       success: false,
       message: "All fields are required",
     });
   }
-
-  // 2. Find only ONE user
   const existingUser = await User.findOne({ phone, password }).select(
     "_id name email role"
   );
   console.log(existingUser);
-  // 3. If no user → invalid login
   if (!existingUser) {
     return res.status(401).json({
       success: false,
@@ -75,8 +70,6 @@ const postLogin = async (req, res) => {
       unauthorized: true,
     });
   }
-
-  // 4. Only these roles can login
   const allowedRoles = ["Admin", "Chef", "Waiter"];
 
   if (!allowedRoles.includes(existingUser.role)) {
@@ -85,8 +78,6 @@ const postLogin = async (req, res) => {
       message: "You are not authorized!",
     });
   }
-
-  // 5. If everything is correct → login success
   res.json({
     success: true,
     user: existingUser,
