@@ -15,13 +15,13 @@ const Navbar = () => {
         <>
           <Link to="/addmenu">Add Menu</Link>
           <Link to="/allorder">Order</Link>
-          <Link to="/signup">Signup</Link>
+          <Link to="/signup">Add Team</Link>
         </>
       )}
 
-      {user?.role === "Waiter" && <Link to="/allorder">Order</Link>}
-      {user?.role === "Chef" && <Link to="/allorder">Order</Link>}
-
+      {(user?.role === "Waiter" || user?.role === "Chef") && (
+        <Link to="/allorder">Order</Link>
+      )}
       {!user && (
         <>
           <Link to="/cartpage">Cart ({totalItems})</Link>

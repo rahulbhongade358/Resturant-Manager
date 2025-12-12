@@ -28,7 +28,9 @@ function SignUp() {
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">
+          Create Membars Account
+        </h2>
         <div className="flex flex-col gap-4">
           <input
             type="text"
@@ -44,7 +46,7 @@ function SignUp() {
           <input
             type="email"
             name="email"
-            placeholder="Email Address"
+            placeholder="ex: name@rajendrachiness.com"
             value={userData.email}
             onChange={(e) => {
               setUserData({ ...userData, email: e.target.value });
@@ -55,7 +57,7 @@ function SignUp() {
           <input
             type="tel"
             name="Phone"
-            placeholder="Contact Number"
+            placeholder="ex: 123-456-7890"
             value={userData.phone}
             onChange={(e) => {
               setUserData({ ...userData, phone: e.target.value });
@@ -66,7 +68,7 @@ function SignUp() {
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="ex:Rajendra!name123"
             value={userData.password}
             onChange={(e) => {
               setUserData({ ...userData, password: e.target.value });
@@ -91,17 +93,14 @@ function SignUp() {
             onClick={signin}
             className="bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition"
           >
-            Sign Up
+            Add Membar
           </button>
         </div>
 
         <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-orange-500 font-medium hover:underline"
-          >
-            Login
+          Back To{" "}
+          <Link to="/" className="text-orange-500 font-medium hover:underline">
+            Home
           </Link>
         </p>
       </div>

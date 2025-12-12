@@ -11,12 +11,14 @@ import MyOrder from "./Pages/MyOrder.jsx";
 import SignUp from "./Component/Signup.jsx";
 import Login from "./Component/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
+import Unauthorized from "./Component/unauthorized.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <CartProvider>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route
           path="/addmenu"
           element={

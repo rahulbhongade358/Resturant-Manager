@@ -4,9 +4,13 @@ import { Navigate } from "react-router";
 function ProtectedRoute({ children, allowed }) {
   const user = JSON.parse(localStorage.getItem("userlogin"));
 
-  if (!user) return <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-  if (!allowed.includes(user.role)) return <Navigate to="/" />;
+  if (allowed && !allowed.includes(user.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
   return children;
 }

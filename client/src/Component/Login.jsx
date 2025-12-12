@@ -8,17 +8,32 @@ function Login() {
   });
 
   const login = async () => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/login`,
-      loginuser
-    );
-    console.log(response);
-    if (response?.data?.success) {
-      localStorage.setItem("userlogin", JSON.stringify(response.data.user));
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        loginuser
+      );
 
-      setTimeout(() => {
+      // ✔ Staff roles only (Admin, Waiter, Chef)
+      if (response?.data?.success) {
+        localStorage.setItem("userlogin", JSON.stringify(response.data.user));
         window.location.href = "/";
-      }, 2000);
+        return;
+      }
+    } catch (err) {
+      // ❌ Customer trying to login → Access Denied
+      if (err.response?.status === 403) {
+        window.location.href = "/unauthorized";
+        return;
+      }
+
+      // ❌ Wrong number/password
+      if (err.response?.status === 401) {
+        window.location.href = "/unauthorized";
+        return;
+      }
+
+      alert("Something went wrong");
     }
   };
 
@@ -66,6 +81,9 @@ function Login() {
             Create one
           </Link>
         </p>
+      </div>
+      <div>
+        <Link to="/">Home</Link>
       </div>
     </div>
   );

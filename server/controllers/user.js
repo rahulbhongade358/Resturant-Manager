@@ -2,13 +2,12 @@ import User from "../models/User.js";
 
 const postSignUp = async (req, res) => {
   const { name, email, phone, password, role } = req.body;
-  if  ((!name || !email || !phone || !password || !role)) {
-
+  if (!name || !email || !phone || !password || !role) {
     return res.json({
       success: false,
       message: "All fields are required",
     });
-}
+  }
   const emailValidationRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameValidationRegex = /^[a-zA-Z ]+$/;
   const passwordValidationRegex =
@@ -54,25 +53,43 @@ const postSignUp = async (req, res) => {
 
 const postLogin = async (req, res) => {
   const { phone, password } = req.body;
-  if ((!phone || !password)) {
-    res.status(400).json({
+
+  // 1. Validate
+  if (!phone || !password) {
+    return res.status(400).json({
       success: false,
       message: "All fields are required",
     });
   }
-  const ExistingUser = await User.findOne({ phone, password }).select(
-    " _id name email role"
+
+  // 2. Find only ONE user
+  const existingUser = await User.findOne({ phone, password }).select(
+    "_id name email role"
   );
-  if (!ExistingUser) {
-    return res.json({
+  console.log(existingUser);
+  // 3. If no user → invalid login
+  if (!existingUser) {
+    return res.status(401).json({
       success: false,
-      message: "Invalid phone or password",
-      user: null,
+      message: "your phone or password is incorrect",
+      unauthorized: true,
     });
   }
+
+  // 4. Only these roles can login
+  const allowedRoles = ["Admin", "Chef", "Waiter"];
+
+  if (!allowedRoles.includes(existingUser.role)) {
+    return res.status(403).json({
+      unauthorized: true,
+      message: "You are not authorized!",
+    });
+  }
+
+  // 5. If everything is correct → login success
   res.json({
     success: true,
-    user: ExistingUser,
+    user: existingUser,
     message: "Login Successfully",
   });
 };
