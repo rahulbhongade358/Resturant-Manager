@@ -42,14 +42,8 @@ const Navbar = () => {
 
             {user?.role === "Admin" && (
               <>
-                <Link to="/addmenu" className="hover:text-amber-600">
-                  Add Menu
-                </Link>
-                <Link to="/allorder" className="hover:text-amber-600">
-                  Orders
-                </Link>
-                <Link to="/signup" className="hover:text-amber-600">
-                  Add Team
+                <Link to="/admindashboard" className="hover:text-amber-600">
+                  Dashboard
                 </Link>
               </>
             )}
@@ -109,11 +103,8 @@ const Navbar = () => {
 
             {user?.role === "Admin" && (
               <>
-                <Link to="/addmenu" onClick={() => setOpen(false)}>
-                  Add Menu
-                </Link>
-                <Link to="/allorder" onClick={() => setOpen(false)}>
-                  Orders
+                <Link to="/admindashboard" className="hover:text-amber-600">
+                  Dashboard
                 </Link>
                 <Link
                   to="/signup"

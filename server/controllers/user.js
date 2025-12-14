@@ -84,5 +84,23 @@ const postLogin = async (req, res) => {
     message: "Login Successfully",
   });
 };
+const getAllUsers = async (req, res) => {
+  try{
+    const users = await User.find()
+    res.json({
+    status: true,
+    data: users,
+    message: `list of ${users.length} Users`,
+  });
+  }catch(error){
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "❌ Server Error",
+      error: error.message,
+    });
+  }
+  }
+  
 
-export { postLogin, postSignUp };
+export { postLogin, postSignUp , getAllUsers};

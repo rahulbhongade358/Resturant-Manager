@@ -37,7 +37,6 @@ function SignUp() {
         </p>
 
         <div className="flex flex-col gap-4">
-          {/* Name */}
           <div className="flex items-center border rounded-lg px-3">
             <User size={18} className="text-gray-400" />
             <input
@@ -51,8 +50,6 @@ function SignUp() {
               required
             />
           </div>
-
-          {/* Email */}
           <div className="flex items-center border rounded-lg px-3">
             <Mail size={18} className="text-gray-400" />
             <input
@@ -66,8 +63,6 @@ function SignUp() {
               required
             />
           </div>
-
-          {/* Phone */}
           <div className="flex items-center border rounded-lg px-3">
             <Phone size={18} className="text-gray-400" />
             <input
@@ -81,8 +76,6 @@ function SignUp() {
               required
             />
           </div>
-
-          {/* Password */}
           <div className="flex items-center border rounded-lg px-3">
             <Lock size={18} className="text-gray-400" />
             <input
@@ -96,8 +89,6 @@ function SignUp() {
               required
             />
           </div>
-
-          {/* Role */}
           <div className="flex items-center border rounded-lg px-3">
             <UserCog size={18} className="text-gray-400" />
             <select
@@ -124,8 +115,11 @@ function SignUp() {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Back to{" "}
-          <Link to="/" className="text-amber-600 font-medium hover:underline">
-            Home
+          <Link
+            to="/admindashboard"
+            className="text-amber-600 font-medium hover:underline"
+          >
+            Dashboard
           </Link>
         </p>
       </div>

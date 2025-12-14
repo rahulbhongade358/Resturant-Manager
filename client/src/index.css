@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+.link-item {
+  @apply flex items-center gap-3 px-4 py-2 rounded 
+         text-gray-700 font-medium transition
+         hover:bg-orange-100 active:bg-orange-200;
+}
+
+.mobile-btn {
+  @apply flex flex-col items-center justify-center gap-1
+         bg-orange-500 text-white py-3 rounded
+         text-sm font-semibold transition
+         active:bg-orange-600;
+}

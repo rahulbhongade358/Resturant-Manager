@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Menu from "./Menu/menu.jsx";
-import Allorder from "./Admin/allorder.jsx";
+import Allorder from "./Pages/allorder.jsx";
 import Addmenu from "./Admin/addmenu.jsx";
 import { CartProvider } from "./Context/CartContext.jsx";
 import CartPage from "./Pages/CartPage.jsx";
@@ -12,6 +12,7 @@ import SignUp from "./Component/Signup.jsx";
 import Login from "./Component/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import Unauthorized from "./Component/unauthorized.jsx";
+import AdminDashboard from "./Admin/AdminDashboard.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <CartProvider>
@@ -24,6 +25,14 @@ createRoot(document.getElementById("root")).render(
           element={
             <ProtectedRoute allowed={["Admin"]}>
               <Addmenu />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admindashboard"
+          element={
+            <ProtectedRoute allowed={["Admin"]}>
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />
