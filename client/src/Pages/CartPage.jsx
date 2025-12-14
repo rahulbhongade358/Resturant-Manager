@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../Context/CartContext.jsx";
 import Navbar from "../Component/Navbar.jsx";
 import axios from "axios";
-
+import { Minus, Plus, Trash2 } from "lucide-react";
 const CartPage = () => {
   const { cartItem, increaseqty, decreaseqty, removeitem, clearcart } =
     useContext(CartContext);
@@ -66,142 +66,153 @@ const CartPage = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <div className="max-w-4xl mx-auto mt-10 p-4">
+      <div className="max-w-5xl mx-auto mt-10 p-4">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           🛒 Your Cart
         </h1>
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-          <table className="w-full text-sm text-gray-700">
-            <thead className="bg-gray-200 text-gray-800">
+
+        {/* Desktop Table */}
+        <div className="hidden md:block bg-white shadow-lg rounded-xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left font-semibold">Dish Name</th>
-                <th className="px-6 py-3 text-center font-semibold">
-                  Quantity
-                </th>
-                <th className="px-6 py-3 text-center font-semibold">
-                  Dish Price
-                </th>
-                <th className="px-6 py-3 text-center font-semibold">Price</th>
-                <th className="px-6 py-3 text-center font-semibold">Action</th>
+                <th className="px-6 py-3 text-left">Dish</th>
+                <th className="px-6 py-3 text-center">Qty</th>
+                <th className="px-6 py-3 text-center">Price</th>
+                <th className="px-6 py-3 text-center">Total</th>
+                <th className="px-6 py-3 text-center">Action</th>
               </tr>
             </thead>
-
             <tbody>
               {cartItem.map((item) => (
                 <tr key={item._id} className="border-b">
                   <td className="px-6 py-4 font-medium">{item.Dishname}</td>
-
                   <td className="px-6 py-4">
-                    <div className="flex items-center justify-center gap-3">
+                    <div className="flex justify-center items-center gap-3">
                       <button
                         onClick={() => decreaseqty(item._id)}
-                        className="px-2 py-1 bg-gray-300 rounded"
+                        className="p-1 bg-gray-200 rounded"
                       >
-                        -
+                        <Minus size={16} />
                       </button>
-
-                      <span className="font-semibold">{item.quantity}</span>
-
+                      <span>{item.quantity}</span>
                       <button
                         onClick={() => increaseqty(item._id)}
-                        className="px-2 py-1 bg-gray-300 rounded"
+                        className="p-1 bg-gray-200 rounded"
                       >
-                        +
+                        <Plus size={16} />
                       </button>
                     </div>
                   </td>
-
-                  <td className="px-6 py-4 text-center">₹ {item.price}</td>
+                  <td className="px-6 py-4 text-center">₹{item.price}</td>
                   <td className="px-6 py-4 text-center">
-                    ₹ {item.price * item.quantity}
+                    ₹{item.price * item.quantity}
                   </td>
-
                   <td className="px-6 py-4 text-center">
                     <button
                       onClick={() => removeitem(item._id)}
-                      className="text-red-600 font-semibold"
+                      className="text-red-600"
                     >
-                      Remove
+                      <Trash2 size={18} />
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
-
-            <tfoot className="bg-gray-100 font-semibold">
-              <tr>
-                <td className="px-6 py-3 text-lg">Total</td>
-                <td className="px-6 py-3 text-center text-lg">
-                  {cartItem.reduce((sum, item) => sum + item.quantity, 0)}
-                </td>
-                <td className="px-6 py-3 text-center">—</td>
-                <td className="px-6 py-3 text-center text-lg">
-                  ₹ {totalamount}
-                </td>
-                <td></td>
-              </tr>
-            </tfoot>
           </table>
         </div>
+
+        {/* Mobile Cards */}
+        <div className="md:hidden space-y-4">
+          {cartItem.map((item) => (
+            <div key={item._id} className="bg-white rounded-xl shadow p-4">
+              <div className="flex justify-between">
+                <h3 className="font-semibold">{item.Dishname}</h3>
+                <button
+                  onClick={() => removeitem(item._id)}
+                  className="text-red-500"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
+              <p className="text-sm text-gray-500">₹{item.price} each</p>
+
+              <div className="flex justify-between items-center mt-3">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => decreaseqty(item._id)}
+                    className="p-1 bg-gray-200 rounded"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button
+                    onClick={() => increaseqty(item._id)}
+                    className="p-1 bg-gray-200 rounded"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+                <span className="font-semibold">
+                  ₹{item.price * item.quantity}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Total */}
         {cartItem.length > 0 && (
-          <div>
-            <form className="max-w-md mx-auto mt-5">
-              <div className="relative z-0 w-full mb-5 group">
-                <input
-                  type="text"
-                  value={customerData.customername}
-                  onChange={(e) =>
-                    setCustomerData({
-                      ...customerData,
-                      customername: e.target.value,
-                    })
-                  }
-                  className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                  placeholder=" "
-                  required
-                />
-                <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                  Customer Name
-                </label>
-              </div>
-              <div className="relative z-0 w-full mb-5 group">
-                <input
-                  type="text"
-                  value={customerData.contactnumber}
-                  onChange={(e) =>
-                    setCustomerData({
-                      ...customerData,
-                      contactnumber: e.target.value,
-                    })
-                  }
-                  className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                  placeholder=" "
-                  required
-                />
-                <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                  Contact Number
-                </label>
-              </div>
-              <div className="relative z-0 w-full mb-5 group">
-                <input
-                  type="text"
-                  value={customerData.tableno}
-                  onChange={(e) =>
-                    setCustomerData({
-                      ...customerData,
-                      tableno: e.target.value,
-                    })
-                  }
-                  className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
-                  placeholder=" "
-                  required
-                />
-                <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-                  Table Number
-                </label>
-              </div>
-            </form>
-            <div className="flex justify-end mt-6 space-x-4">
+          <div className="bg-white rounded-xl shadow p-4 mt-6">
+            <div className="flex justify-between font-semibold text-lg">
+              <span>Total</span>
+              <span>₹{totalamount}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Customer Form */}
+        {cartItem.length > 0 && (
+          <div className="bg-white rounded-xl shadow p-6 mt-6 max-w-md mx-auto">
+            <h2 className="font-semibold text-lg mb-4">Customer Details</h2>
+
+            <input
+              type="text"
+              placeholder="Customer Name"
+              value={customerData.customername}
+              onChange={(e) =>
+                setCustomerData({
+                  ...customerData,
+                  customername: e.target.value,
+                })
+              }
+              className="w-full mb-4 p-2 border rounded"
+            />
+
+            <input
+              type="text"
+              placeholder="Contact Number"
+              value={customerData.contactnumber}
+              onChange={(e) =>
+                setCustomerData({
+                  ...customerData,
+                  contactnumber: e.target.value,
+                })
+              }
+              className="w-full mb-4 p-2 border rounded"
+            />
+
+            <input
+              type="text"
+              placeholder="Table Number"
+              value={customerData.tableno}
+              onChange={(e) =>
+                setCustomerData({ ...customerData, tableno: e.target.value })
+              }
+              className="w-full mb-6 p-2 border rounded"
+            />
+
+            <div className="flex justify-between">
               <button
                 onClick={clearcart}
                 className="px-4 py-2 bg-red-500 text-white rounded"
@@ -210,7 +221,7 @@ const CartPage = () => {
               </button>
               <button
                 onClick={postOrder}
-                className="px-4 py-2 bg-green-500 text-white rounded"
+                className="px-4 py-2 bg-green-600 text-white rounded"
               >
                 Place Order
               </button>

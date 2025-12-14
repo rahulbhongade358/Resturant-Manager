@@ -7,7 +7,7 @@ import Navbar from "../Component/Navbar";
 const Allorder = () => {
   const [orders, setOrders] = useState([]);
   const [errors, setErrors] = useState("");
-  const fetcorder = async () => {
+  const fetchorder = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/allorders`
@@ -19,7 +19,7 @@ const Allorder = () => {
     }
   };
   useEffect(() => {
-    fetcorder();
+    fetchorder();
   }, []);
   return (
     <div>
