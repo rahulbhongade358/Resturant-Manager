@@ -12,7 +12,7 @@ const QuickLinks = () => {
     <div>
       <h1 className="text-lg font-bold mb-4">⚡ Quick Links</h1>
       <div className="hidden md:flex flex-col gap-3">
-        <Link className="link-item" to="/admindashboard">
+        <Link className="link-item" to="/dashboard">
           <LayoutDashboard size={18} /> Dashboard
         </Link>
         <Link className="link-item" to="/addmenu">
@@ -29,7 +29,7 @@ const QuickLinks = () => {
         </Link>
       </div>
       <div className="md:hidden grid grid-cols-2 gap-3">
-        <Link className="mobile-btn" to="/admindashboard">
+        <Link className="mobile-btn" to="/dashboard">
           <LayoutDashboard size={20} />
           Dashboard
         </Link>
