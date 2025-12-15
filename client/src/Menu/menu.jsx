@@ -36,6 +36,7 @@ const Menu = () => {
 
   return (
     <div>
+      <Navbar />
       <div className="flex flex-col justify-center items-center mt-10">
         <h1 className="font-serif font-semibold text-3xl mb-4">Menu</h1>
 
