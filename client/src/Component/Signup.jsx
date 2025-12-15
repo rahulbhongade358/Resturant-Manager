@@ -116,7 +116,7 @@ function SignUp() {
         <p className="text-center text-sm text-gray-600 mt-6">
           Back to{" "}
           <Link
-            to="/admindashboard"
+            to="/dashboard"
             className="text-amber-600 font-medium hover:underline"
           >
             Dashboard

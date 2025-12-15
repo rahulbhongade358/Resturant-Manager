@@ -11,8 +11,8 @@ import MyOrder from "./Pages/MyOrder.jsx";
 import SignUp from "./Component/Signup.jsx";
 import Login from "./Component/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
-import Unauthorized from "./Component/unauthorized.jsx";
-import AdminDashboard from "./Admin/AdminDashboard.jsx";
+import Unauthorized from "./Component/Unauthorized.jsx";
+import Dashboard from "./Dashboard/Dashboard.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <CartProvider>
@@ -28,20 +28,20 @@ createRoot(document.getElementById("root")).render(
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/admindashboard"
-          element={
-            <ProtectedRoute allowed={["Admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
         <Route path="/cartpage" element={<CartPage />} />
         <Route
           path="/allorder"
           element={
             <ProtectedRoute allowed={["Admin", "Waiter", "Chef"]}>
               <Allorder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute allowed={["Admin", "Waiter", "Chef"]}>
+              <Dashboard />
             </ProtectedRoute>
           }
         />

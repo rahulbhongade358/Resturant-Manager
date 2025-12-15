@@ -40,17 +40,16 @@ const Navbar = () => {
               Menu
             </Link>
 
-            {user?.role === "Admin" && (
-              <>
-                <Link to="/admindashboard" className="hover:text-amber-600">
-                  Dashboard
-                </Link>
-              </>
-            )}
-
             {(user?.role === "Waiter" || user?.role === "Chef") && (
               <Link to="/allorder" className="hover:text-amber-600">
                 Orders
+              </Link>
+            )}
+            {(user?.role === "Waiter" ||
+              user?.role === "Chef" ||
+              user?.role === "Admin") && (
+              <Link to="/dashboard" className="hover:text-amber-600">
+                Dashboard
               </Link>
             )}
 
