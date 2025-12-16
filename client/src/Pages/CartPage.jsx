@@ -11,15 +11,28 @@ const CartPage = () => {
     contactnumber: "",
     tableno: "",
   });
+  const user = localStorage.getItem("userlogin");
   useEffect(() => {
-    const savedContact = localStorage.getItem("MyOrderId");
-    const savedName = localStorage.getItem("CustomerName");
-    setCustomerData({
-      customername: savedName || "",
-      contactnumber: savedContact || "",
-      tableno: "",
-    });
-  }, []);
+    if (!user) {
+      // Guest user → autofill from localStorage
+      const savedContact = localStorage.getItem("MyOrderId");
+      const savedName = localStorage.getItem("CustomerName");
+
+      setCustomerData({
+        customername: savedName || "",
+        contactnumber: savedContact || "",
+        tableno: "",
+      });
+    } else {
+      // Logged-in user → empty inputs
+      setCustomerData({
+        customername: "",
+        contactnumber: "",
+        tableno: "",
+      });
+    }
+  }, [user]);
+
   const totalamount = cartItem.reduce(
     (sum, item) => sum + item.quantity * item.price,
     0
@@ -46,8 +59,10 @@ const CartPage = () => {
 
       console.log("Order Response:", response.data);
 
-      localStorage.setItem("MyOrderId", customerData.contactnumber);
-      localStorage.setItem("CustomerName", customerData.customername);
+      if (!user) {
+        localStorage.setItem("MyOrderId", customerData.contactnumber);
+        localStorage.setItem("CustomerName", customerData.customername);
+      }
 
       clearcart();
       setCustomerData({
@@ -171,10 +186,11 @@ const CartPage = () => {
           </div>
         )}
 
-        {/* Customer Form */}
         {cartItem.length > 0 && (
           <div className="bg-white rounded-xl shadow p-6 mt-6 max-w-md mx-auto">
-            <h2 className="font-semibold text-lg mb-4">Customer Details</h2>
+            <h2 className="font-semibold text-lg mb-4">
+              {user ? "Enter Customer Details" : "Customer Details"}
+            </h2>
 
             <input
               type="text"

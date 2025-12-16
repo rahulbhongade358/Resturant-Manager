@@ -3,8 +3,19 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import { getMenu, postMenu } from "./controllers/menu.js";
-import { getCustomerOrder, getOrder, postOrder } from "./controllers/order.js";
+import {
+  dashboardSummary,
+  getCustomerOrder,
+  getOrder,
+  postOrder,
+  updateOrderStatus,
+} from "./controllers/order.js";
 import { getAllUsers, postLogin, postSignUp } from "./controllers/user.js";
+import {
+  addTable,
+  getAllTables,
+  toggleTableStatus,
+} from "./controllers/tables.js";
 
 dotenv.config();
 const app = express();
@@ -23,6 +34,12 @@ app.get("/order", getCustomerOrder);
 app.post("/login", postLogin);
 app.post("/signup", postSignUp);
 app.get("/allusers", getAllUsers);
+app.get("/dashboardsummary", dashboardSummary);
+app.put("/updateorderstatus/:orderId", updateOrderStatus);
+app.get("/tables", getAllTables);
+app.patch("/tables/:tableId/toggle", toggleTableStatus);
+app.post("/addtable", addTable);
+
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_URL);

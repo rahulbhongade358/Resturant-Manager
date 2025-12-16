@@ -21,63 +21,69 @@ const OrdersTable = () => {
   return (
     <div>
       <div>{errors}</div>
-      <div className="mb-4">
-        <h1 className="text-xl font-bold">Orders Table</h1>
-      </div>
-      <div className="space-y-4">
-        {orders.map((order) => (
-          <div
-            key={order._id}
-            className="bg-white rounded-lg shadow p-4 border"
-          >
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-bold text-lg">
-                Order #{order._id.slice(-5)}
-              </h3>
 
-              <span
-                className={`px-2 py-1 text-xs rounded font-semibold
-            ${
-              order.status === "Pending"
-                ? "bg-red-100 text-red-700"
-                : order.status === "Preparing"
-                ? "bg-yellow-100 text-yellow-700"
-                : "bg-green-100 text-green-700"
-            }
-          `}
-              >
-                {order.status}
-              </span>
-            </div>
-            <p className="text-lg mb-2">
-              🍽 Table:{" "}
-              <span className="font-semibold">{order.tableNumber}</span>
-            </p>
-            <div className="text-lg mb-3">
-              <p className="font-semibold mb-1">Items:</p>
-              <ul className="list-disc pl-5 space-y-1">
-                {order.orderItems.map((item) => (
-                  <li key={item.itemId}>
-                    {item.Dishname} × {item.quantity}
-                  </li>
+      <div className="bg-white shadow rounded overflow-hidden">
+        <div className="overflow-x-auto">
+          <div className="max-h-[40vh] overflow-y-auto">
+            <table className="min-w-full text-xs sm:text-sm text-left">
+              <thead className="sticky top-0 bg-gray-100 z-10">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">Order ID</th>
+                  <th className="px-4 py-3 font-semibold">Customer</th>
+                  <th className="px-4 py-3 font-semibold hidden md:table-cell">
+                    Phone
+                  </th>
+
+                  <th className="px-4 py-3 font-semibold">Table No</th>
+                  <th className="px-4 py-3 font-semibold">Items</th>
+                  <th className="px-4 py-3 font-semibold">Total</th>
+                  <th className="px-4 py-3 font-semibold">Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order._id} className="border-b hover:bg-gray-50">
+                   <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
+
+                      {order._id.slice(-6)}
+                    </td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
+                      {order.customerName}
+                      </td>
+                    <td className="px-4 py-3 hidden md:table-cell">
+                      {order.customerContact}
+                    </td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
+                  
+                      {order.tableNumber}
+                    </td>
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
+                  
+                      <ul className="list-disc pl-4 space-y-1">
+                        {order.orderItems.map((item) => (
+                          <li key={item.itemId}>
+                            {item.Dishname} × {item.quantity}
+                          </li>
+                        ))}
+                      </ul>
+                    </td>
+                   <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-green-600 font-semibold ">
+                        
+                      ₹{order.totalAmount}
+                    </td>
+                   <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
+                        
+                      <span className="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">
+                        {order.status}
+                      </span>
+                    </td>
+                  </tr>
                 ))}
-              </ul>
-            </div>
-            <div className="flex gap-2">
-              {order.status === "Pending" && (
-                <button className="flex-1 bg-yellow-500 text-white py-2 rounded text-sm font-semibold">
-                  Start Preparing
-                </button>
-              )}
-
-              {order.status === "Preparing" && (
-                <button className="flex-1 bg-green-600 text-white py-2 rounded text-sm font-semibold">
-                  Mark Done
-                </button>
-              )}
-            </div>
+              </tbody>
+            </table>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

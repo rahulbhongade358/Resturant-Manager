@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Component/Navbar";
 import axios from "axios";
+import { Link } from "react-router";
 import { CartContext } from "../Context/CartContext.jsx";
 const Menu = () => {
   const [menu, setMenu] = useState([]);
@@ -43,7 +44,6 @@ const Menu = () => {
         {errors && <p className="text-red-500">{errors}</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
-          <span>Main Course</span>
           {menu.map((i) => (
             <div
               key={i._id}
@@ -90,6 +90,10 @@ const Menu = () => {
                     >
                       +
                     </button>
+                    <Link to="/cartpage">
+                      {" "}
+                      <button>View Cart</button>
+                    </Link>
                   </div>
                 ) : (
                   <button

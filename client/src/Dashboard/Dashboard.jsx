@@ -6,6 +6,7 @@ import OrdersTable from "../Admin/OrdersTable";
 import QuickLinks from "../Admin/QuickLinks";
 import TeamMembers from "../Admin/TeamMembers";
 import Menu from "../Menu/menu";
+import AdminTables from "../Admin/AdminTables";
 
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("userlogin"));
@@ -43,6 +44,9 @@ const Dashboard = () => {
             <>
               <div>
                 <SummaryCard />
+              </div>
+              <div className="mt-4 bg-white rounded-xl shadow p-6">
+                <AdminTables />
               </div>
               <div className="mt-4 bg-white rounded-xl shadow p-6">
                 <QuickLinks />
