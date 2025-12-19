@@ -13,49 +13,52 @@ import Login from "./Component/Login.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import Unauthorized from "./Component/Unauthorized.jsx";
 import Dashboard from "./Dashboard/Dashboard.jsx";
+import { ApiProvider } from "./Context/ApiContext.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
-    <CartProvider>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route
-          path="/addmenu"
-          element={
-            <ProtectedRoute allowed={["Admin"]}>
-              <Addmenu />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/cartpage" element={<CartPage />} />
-        <Route
-          path="/allorder"
-          element={
-            <ProtectedRoute allowed={["Admin", "Waiter", "Chef"]}>
-              <Allorder />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute allowed={["Admin", "Waiter", "Chef"]}>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/myorder" element={<MyOrder />} />
-        <Route
-          path="/signup"
-          element={
-            <ProtectedRoute allowed={["Admin"]}>
-              <SignUp />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </CartProvider>
+    <ApiProvider>
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route
+            path="/addmenu"
+            element={
+              <ProtectedRoute allowed={["Admin"]}>
+                <Addmenu />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/cartpage" element={<CartPage />} />
+          <Route
+            path="/allorder"
+            element={
+              <ProtectedRoute allowed={["Admin", "Waiter", "Chef"]}>
+                <Allorder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowed={["Admin", "Waiter", "Chef"]}>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/myorder" element={<MyOrder />} />
+          <Route
+            path="/signup"
+            element={
+              <ProtectedRoute allowed={["Admin"]}>
+                <SignUp />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </CartProvider>
+    </ApiProvider>
   </Router>
 );

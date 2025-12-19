@@ -36,8 +36,6 @@ const Addmenu = () => {
           <h2 className="text-2xl font-serif font-semibold text-center mb-8">
             Add New Menu Item
           </h2>
-
-          {/* Form */}
           <form className="space-y-6">
             {/* Dish Name */}
             <div className="relative z-0 w-full group">

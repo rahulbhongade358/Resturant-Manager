@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../Component/Navbar";
+import { useApi } from "../Context/ApiContext";
 
 const AdminTables = () => {
-  const [tables, setTables] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { tables, fetchTables, loading } = useApi();
   const [tableNumber, setTableNumber] = useState("");
-  const fetchTables = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/tables`);
-      setTables(res.data.data);
-    } catch (err) {
-      console.error("Failed to fetch tables");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const toggleTableStatus = async (tableId) => {
     try {
@@ -37,10 +27,6 @@ const AdminTables = () => {
       alert("Unable to add table");
     }
   };
-  useEffect(() => {
-    fetchTables();
-  }, []);
-
   return (
     <div>
       <div className="max-w-5xl mx-auto p-4">

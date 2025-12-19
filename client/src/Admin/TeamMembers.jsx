@@ -1,24 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { useApi } from "../Context/ApiContext";
 
 const TeamMembers = () => {
-  const [allMembers, setAllMembers] = useState([]);
-  const [errors, setErrors] = useState("");
-  const fetchAllMembers = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/allusers`
-      );
-      setAllMembers(response.data.data);
-    } catch (e) {
-      setErrors(e.response.data.message);
-      setAllMembers([]);
-    }
-  };
-  useEffect(() => {
-    fetchAllMembers();
-  }, []);
+  const { team, errors } = useApi();
   return (
     <div className="p-4">
       <div>{errors}</div>
@@ -42,7 +28,7 @@ const TeamMembers = () => {
             </tr>
           </thead>
           <tbody>
-            {allMembers.map((member) => (
+            {team.map((member) => (
               <tr key={member._id} className="border-b">
                 <td className="px-4 py-3">{member.name}</td>
                 <td className="px-4 py-3">{member.role}</td>
@@ -63,7 +49,7 @@ const TeamMembers = () => {
 
       {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
-        {allMembers.map((member) => (
+        {team.map((member) => (
           <div
             key={member._id}
             className="bg-white shadow rounded p-4 space-y-2"

@@ -1,23 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useApi } from "../Context/ApiContext";
 
 const OrdersTable = () => {
-  const [orders, setOrders] = useState([]);
-  const [errors, setErrors] = useState("");
-  const fetchorder = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/allorders`
-      );
-      setOrders(response.data.data);
-    } catch (e) {
-      setErrors(e.response.data.message);
-      setOrders([]);
-    }
-  };
-  useEffect(() => {
-    fetchorder();
-  }, []);
+  const { orders, errors } = useApi();
   return (
     <div>
       <div>{errors}</div>
@@ -44,22 +30,19 @@ const OrdersTable = () => {
               <tbody>
                 {orders.map((order) => (
                   <tr key={order._id} className="border-b hover:bg-gray-50">
-                   <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                       {order._id.slice(-6)}
                     </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                       {order.customerName}
-                      </td>
+                    </td>
                     <td className="px-4 py-3 hidden md:table-cell">
                       {order.customerContact}
                     </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-                  
                       {order.tableNumber}
                     </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-                  
                       <ul className="list-disc pl-4 space-y-1">
                         {order.orderItems.map((item) => (
                           <li key={item.itemId}>
@@ -68,12 +51,10 @@ const OrdersTable = () => {
                         ))}
                       </ul>
                     </td>
-                   <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-green-600 font-semibold ">
-                        
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap text-green-600 font-semibold ">
                       ₹{order.totalAmount}
                     </td>
-                   <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
-                        
+                    <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                       <span className="px-2 py-1 rounded text-xs bg-yellow-100 text-yellow-800">
                         {order.status}
                       </span>

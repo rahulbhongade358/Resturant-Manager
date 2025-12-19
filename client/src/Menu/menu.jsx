@@ -1,22 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Navbar from "../Component/Navbar";
-import axios from "axios";
 import { Link } from "react-router";
 import { CartContext } from "../Context/CartContext.jsx";
+import { useApi } from "../Context/ApiContext.jsx";
 const Menu = () => {
-  const [menu, setMenu] = useState([]);
-  const [errors, setErrors] = useState("");
+  const { menu, errors } = useApi();
   const { cartItem, addtocart, increaseqty, decreaseqty } =
     useContext(CartContext);
-  const fetchmenu = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/menu`);
-      setMenu(response.data.data);
-    } catch (e) {
-      setErrors(e.response.data.message);
-      setMenu([]);
-    }
-  };
+
   const getQty = (id) => {
     const item = cartItem.find((i) => i._id === id);
     return item ? item.quantity : 0;
@@ -31,10 +22,6 @@ const Menu = () => {
   const handledeccount = (_id) => {
     decreaseqty(_id);
   };
-  useEffect(() => {
-    fetchmenu();
-  }, []);
-
   return (
     <div>
       <Navbar />

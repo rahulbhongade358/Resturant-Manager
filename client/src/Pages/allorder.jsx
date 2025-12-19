@@ -1,11 +1,10 @@
 import axios from "axios";
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import Navbar from "../Component/Navbar";
+import { useApi } from "../Context/ApiContext";
 const Allorder = () => {
-  const [orders, setOrders] = useState([]);
-  const [errors, setErrors] = useState("");
+  const { orders, errors } = useApi();
   const [filterStatus, setFilterStatus] = useState("All");
 
   const filteredOrders =
@@ -13,17 +12,6 @@ const Allorder = () => {
       ? orders
       : orders.filter((order) => order.status === filterStatus);
 
-  const fetchorder = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/allorders`
-      );
-      setOrders(response.data.data);
-    } catch (e) {
-      setErrors(e.response.data.message);
-      setOrders([]);
-    }
-  };
   const getNextStatus = (currentStatus) => {
     switch (currentStatus) {
       case "Pending":
@@ -52,9 +40,6 @@ const Allorder = () => {
       console.error("Update failed", error);
     }
   };
-  useEffect(() => {
-    fetchorder();
-  }, []);
   return (
     <div>
       <div>
@@ -90,7 +75,6 @@ const Allorder = () => {
               key={order._id}
               className="border rounded-xl p-4 bg-gray-50 hover:shadow-md transition-all"
             >
-              {/* Header */}
               <div className="flex justify-between items-center mb-3">
                 <span className="font-semibold text-sm sm:text-base">
                   Order #{order._id.slice(-6)}
@@ -111,8 +95,6 @@ const Allorder = () => {
                   {order.status}
                 </span>
               </div>
-
-              {/* Info */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 text-sm mb-3">
                 <div>
                   <span className="font-medium">Customer:</span>{" "}
@@ -133,8 +115,6 @@ const Allorder = () => {
                   </span>
                 </div>
               </div>
-
-              {/* Items */}
               <div className="mb-3">
                 <span className="font-medium">Items:</span>
                 <ul className="list-disc pl-5 mt-1 space-y-1 text-sm">
@@ -145,8 +125,6 @@ const Allorder = () => {
                   ))}
                 </ul>
               </div>
-
-              {/* Action Button */}
               <div className="flex justify-end">
                 {order.status !== "Delivered" && (
                   <button

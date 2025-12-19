@@ -1,23 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useApi } from "../Context/ApiContext";
 
 const SummaryCard = () => {
-  const [summary, setSummary] = useState({});
-  const fetchSummay = async () => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/dashboardsummary`
-      );
-      setSummary(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    fetchSummay();
-  }, []);
+  const { summary, errors } = useApi();
   return (
     <div>
+      {errors && <p className="text-red-500">{errors}</p>}
       <h1 className="text-2xl font-bold mb-4">Summary Cards</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
         <div className="bg-white p-5 shadow rounded-lg">
