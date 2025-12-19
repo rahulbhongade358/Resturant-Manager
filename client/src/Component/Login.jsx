@@ -4,11 +4,13 @@ import { Link } from "react-router";
 import { Phone, Lock } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { initSound } from "../utils/orderSound";
+import { useNavigate } from "react-router";
 function Login() {
   const [loginuser, setLoginuser] = useState({
     phone: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
@@ -23,7 +25,7 @@ function Login() {
         localStorage.setItem("userlogin", JSON.stringify(response.data.user));
         localStorage.setItem("justLoggedIn", "true");
         setTimeout(() => {
-          window.location.href = "/";
+          navigate("/dashboard");
         }, 2000);
         return;
       }
