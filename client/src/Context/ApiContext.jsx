@@ -10,10 +10,13 @@ export const ApiProvider = ({ children }) => {
   const [summary, setSummary] = useState([]);
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(true);
+  const [skeletonLoading, setSkeletonLoading] = useState(false);
   const fetchTables = async () => {
+    setSkeletonLoading(true)
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/tables`);
       setTables(res.data.data);
+      setSkeletonLoading(false);
     } catch (err) {
       console.error("Failed to fetch tables");
     } finally {
@@ -21,32 +24,38 @@ export const ApiProvider = ({ children }) => {
     }
   };
   const fetchOrders = async () => {
+    setSkeletonLoading(true)
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/allorders`
       );
       setOrders(response.data.data);
+      setSkeletonLoading(false);
     } catch (e) {
       setErrors(e.response.data.message);
       setOrders([]);
     }
   };
   const fetchSummary = async () => {
+    setSkeletonLoading(true)
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/dashboardsummary`
       );
       setSummary(response.data);
+      setSkeletonLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
   const fetchTeam = async () => {
+    setSkeletonLoading(true);
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/allusers`
       );
       setTeam(response.data.data);
+      setSkeletonLoading(false);
     } catch (e) {
       setErrors(e.response.data.message);
       setTeam([]);
@@ -54,9 +63,10 @@ export const ApiProvider = ({ children }) => {
   };
   const fetchMenu = async () => {
     try {
+      setSkeletonLoading(true);
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/menu`);
       setMenu(response.data.data);
-      console.log("menu fetch on apicontext");
+      setSkeletonLoading(false);
     } catch (e) {
       setErrors(e.response.data.message);
       setMenu([]);
@@ -81,6 +91,7 @@ export const ApiProvider = ({ children }) => {
         menu,
         summary,
         loading,
+        skeletonLoading,
         fetchTeam,
         fetchMenu,
         fetchOrders,

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../Component/Navbar";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 const Addmenu = () => {
   const [foodData, setFoodData] = useState({
     Dishname: "",
@@ -15,7 +16,10 @@ const Addmenu = () => {
         `${import.meta.env.VITE_API_URL}/uploadmenu`,
         foodData
       );
-      console.log("Food Data:", response.data);
+      toast.success("Menu Item Added Successfully!", {
+        icon: "🍜",
+        duration: 3000,
+      });
       setFoodData({
         Dishname: "",
         Dishtype: "",
@@ -133,6 +137,7 @@ const Addmenu = () => {
           </form>
         </div>
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 };

@@ -72,10 +72,8 @@ const CartPage = () => {
         tableno: "",
       });
     } catch (error) {
-      console.error(
-        "Error placing order:",
-        error.response?.data || error.message
-      );
+      toast.error(error.response.data.message || "Failed to place order", 
+        { duration: 3000})
     }
   };
   return (

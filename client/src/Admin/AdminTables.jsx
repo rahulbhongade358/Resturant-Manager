@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import axios from "axios";
 import Navbar from "../Component/Navbar";
 import { useApi } from "../Context/ApiContext";
-
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const AdminTables = () => {
-  const { tables, fetchTables, loading } = useApi();
+  const { tables, fetchTables, loading, skeletonLoading } = useApi();
   const [tableNumber, setTableNumber] = useState("");
 
   const toggleTableStatus = async (tableId) => {
@@ -33,7 +34,6 @@ const AdminTables = () => {
         <h1 className="text-2xl font-bold mb-4">Table Management</h1>
         <div className="mb-4">
           <form className="space-y-6">
-            {/* Dish Name */}
             <div className="relative z-0 w-full group">
               <input
                 type="text"
@@ -59,8 +59,21 @@ const AdminTables = () => {
             </button>
           </form>
           <div />
-          {loading ? (
-            <p>Loading tables...</p>
+          {skeletonLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {Array(6)
+                .fill(0)
+                .map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    width={285}
+                    height={100}
+                    baseColor="#d1d5db"
+                    highlightColor="#f3f4f6"
+                    borderRadius={8}
+                  />
+                ))}
+            </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {tables.map((table) => (
@@ -111,4 +124,4 @@ const AdminTables = () => {
   );
 };
 
-export default AdminTables;
+export default React.memo(AdminTables);

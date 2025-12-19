@@ -62,7 +62,6 @@ const postLogin = async (req, res) => {
   const existingUser = await User.findOne({ phone, password }).select(
     "_id name email role"
   );
-  console.log(existingUser);
   if (!existingUser) {
     return res.status(401).json({
       success: false,
@@ -85,14 +84,14 @@ const postLogin = async (req, res) => {
   });
 };
 const getAllUsers = async (req, res) => {
-  try{
-    const users = await User.find()
+  try {
+    const users = await User.find();
     res.json({
-    status: true,
-    data: users,
-    message: `list of ${users.length} Users`,
-  });
-  }catch(error){
+      status: true,
+      data: users,
+      message: `list of ${users.length} Users`,
+    });
+  } catch (error) {
     res.status(500).json({
       status: false,
       data: null,
@@ -100,7 +99,6 @@ const getAllUsers = async (req, res) => {
       error: error.message,
     });
   }
-  }
-  
+};
 
-export { postLogin, postSignUp , getAllUsers};
+export { postLogin, postSignUp, getAllUsers };
