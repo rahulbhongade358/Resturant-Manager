@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
 import { Phone, Lock } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
+import { initSound } from "../utils/orderSound";
 function Login() {
   const [loginuser, setLoginuser] = useState({
     phone: "",
@@ -16,8 +18,13 @@ function Login() {
       );
 
       if (response?.data?.success) {
+        await initSound();
+        toast.success("Login Successful", { icon: "✅", duration: 2000 });
         localStorage.setItem("userlogin", JSON.stringify(response.data.user));
-        window.location.href = "/";
+        localStorage.setItem("justLoggedIn", "true");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
         return;
       }
     } catch (err) {
@@ -46,7 +53,6 @@ function Login() {
         </p>
 
         <div className="flex flex-col gap-4">
-          {/* Phone */}
           <div className="flex items-center border rounded-lg px-3">
             <Phone size={18} className="text-gray-400" />
             <input
@@ -90,14 +96,13 @@ function Login() {
           Staff & Admin access only
         </p>
       </div>
-
-      {/* Back Home */}
       <Link
         to="/"
-        className="absolute bottom-6 text-amber-600 underline hover:text-amber-800"
+        className="absolute bottom-20  text-amber-600 underline hover:text-amber-800"
       >
         ← Back to Home
       </Link>
+      <Toaster position="top-center" />
     </div>
   );
 }

@@ -84,7 +84,7 @@ const dashboardSummary = async (req, res) => {
   const preparingOrders = await Order.countDocuments({ status: "Preparing" });
   const deliveredOrders = await Order.countDocuments({ status: "Delivered" });
 
-  const customers = await Order.distinct("phone");
+  const customers = await Order.distinct("customerContact");
 
   const profit = await Order.aggregate([
     { $group: { _id: null, total: { $sum: "$totalAmount" } } },

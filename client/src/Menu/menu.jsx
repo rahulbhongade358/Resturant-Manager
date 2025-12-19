@@ -92,7 +92,10 @@ const Menu = () => {
                     </button>
                     <Link to="/cartpage">
                       {" "}
-                      <button>View Cart</button>
+                      <button className=" w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-2 rounded-xl ml-4">
+                        {" "}
+                        Go to Cart{" "}
+                      </button>
                     </Link>
                   </div>
                 ) : (

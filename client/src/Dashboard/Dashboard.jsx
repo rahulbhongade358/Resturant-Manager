@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../Component/Navbar";
 import { LayoutDashboard, UserCircle } from "lucide-react";
 import SummaryCard from "../Admin/SummaryCard";
@@ -7,9 +7,19 @@ import QuickLinks from "../Admin/QuickLinks";
 import TeamMembers from "../Admin/TeamMembers";
 import Menu from "../Menu/menu";
 import AdminTables from "../Admin/AdminTables";
-
+import toast, { Toaster } from "react-hot-toast";
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("userlogin"));
+  useEffect(() => {
+    const justLoggedIn = localStorage.getItem("justLoggedIn");
+    if (justLoggedIn) {
+      toast.success(`Welcome Back ${user?.name || "User"}`, {
+        icon: "✅",
+        duration: 2000,
+      });
+    }
+    localStorage.removeItem("justLoggedIn");
+  }, []);
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
@@ -84,6 +94,7 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { CartContext } from "../Context/CartContext.jsx";
 import Navbar from "../Component/Navbar.jsx";
 import axios from "axios";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 const CartPage = () => {
   const { cartItem, increaseqty, decreaseqty, removeitem, clearcart } =
     useContext(CartContext);
@@ -14,7 +15,6 @@ const CartPage = () => {
   const user = localStorage.getItem("userlogin");
   useEffect(() => {
     if (!user) {
-      // Guest user → autofill from localStorage
       const savedContact = localStorage.getItem("MyOrderId");
       const savedName = localStorage.getItem("CustomerName");
 
@@ -24,7 +24,6 @@ const CartPage = () => {
         tableno: "",
       });
     } else {
-      // Logged-in user → empty inputs
       setCustomerData({
         customername: "",
         contactnumber: "",
@@ -56,8 +55,10 @@ const CartPage = () => {
         `${import.meta.env.VITE_API_URL}/order`,
         orderData
       );
-
-      console.log("Order Response:", response.data);
+      toast.success("Order Placed Successfully!", {
+        icon: "🍜",
+        duration: 3000,
+      });
 
       if (!user) {
         localStorage.setItem("MyOrderId", customerData.contactnumber);
@@ -85,8 +86,6 @@ const CartPage = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           🛒 Your Cart
         </h1>
-
-        {/* Desktop Table */}
         <div className="hidden md:block bg-white shadow-lg rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-200">
@@ -136,8 +135,6 @@ const CartPage = () => {
             </tbody>
           </table>
         </div>
-
-        {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
           {cartItem.map((item) => (
             <div key={item._id} className="bg-white rounded-xl shadow p-4">
@@ -175,8 +172,6 @@ const CartPage = () => {
             </div>
           ))}
         </div>
-
-        {/* Total */}
         {cartItem.length > 0 && (
           <div className="bg-white rounded-xl shadow p-4 mt-6">
             <div className="flex justify-between font-semibold text-lg">
@@ -245,6 +240,7 @@ const CartPage = () => {
           </div>
         )}
       </div>
+      <Toaster />
     </div>
   );
 };

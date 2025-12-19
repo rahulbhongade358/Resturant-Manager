@@ -3,7 +3,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import Navbar from "../Component/Navbar";
-import { useParams } from "react-router";
+import { playOrderSound } from "../utils/orderSound";
+import { useRef } from "react";
 
 const Allorder = () => {
   const [orders, setOrders] = useState([]);
@@ -14,13 +15,18 @@ const Allorder = () => {
     filterStatus === "All"
       ? orders
       : orders.filter((order) => order.status === filterStatus);
-
+  const prevOrderCount = useRef(0);
   const fetchorder = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/allorders`
       );
-      setOrders(response.data.data);
+      const newOrders = response.data.data;
+      if (prevOrderCount.current && newOrders.length > prevOrderCount.current) {
+        playOrderSound();
+      }
+      prevOrderCount.current = newOrders.length;
+      setOrders(newOrders);
     } catch (e) {
       setErrors(e.response.data.message);
       setOrders([]);
@@ -48,7 +54,6 @@ const Allorder = () => {
         `${import.meta.env.VITE_API_URL}/updateorderstatus/${orderId}`,
         { status: nextStatus }
       );
-
       fetchorder();
     } catch (error) {
       console.error("Update failed", error);
@@ -56,6 +61,8 @@ const Allorder = () => {
   };
   useEffect(() => {
     fetchorder();
+    const interval = setInterval(fetchorder, 5000);
+    return () => clearInterval(interval);
   }, []);
   return (
     <div>
