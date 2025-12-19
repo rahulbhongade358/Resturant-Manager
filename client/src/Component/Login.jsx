@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router";
 import { Phone, Lock } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
-import { initSound } from "../utils/orderSound";
 import { useNavigate } from "react-router";
 function Login() {
   const [loginuser, setLoginuser] = useState({
@@ -20,7 +19,6 @@ function Login() {
       );
 
       if (response?.data?.success) {
-        await initSound();
         toast.success("Login Successful", { icon: "✅", duration: 2000 });
         localStorage.setItem("userlogin", JSON.stringify(response.data.user));
         localStorage.setItem("justLoggedIn", "true");
