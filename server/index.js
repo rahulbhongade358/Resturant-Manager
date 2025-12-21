@@ -2,12 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import {
-  getMenu,
-  addDish,
-  updateDish,
-  deleteDish,
-} from "./controllers/menu.js";
+import { getMenu, postMenu } from "./controllers/menu.js";
 import {
   dashboardSummary,
   getCustomerOrder,
@@ -31,10 +26,8 @@ app.get("/health", (req, res) => {
   res.json({ status: "OK", message: "Resturant Server is healthy" });
 });
 
-app.post("/uploadmenu", addDish);
+app.post("/uploadmenu", postMenu);
 app.get("/menu", getMenu);
-app.put("/updatemenu/:id", updateDish);
-app.delete("/deletemenu/:id", deleteDish);
 app.post("/order", postOrder);
 app.get("/allorders", getOrder);
 app.get("/order", getCustomerOrder);
