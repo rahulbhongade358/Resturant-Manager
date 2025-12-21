@@ -28,7 +28,7 @@ const Addmenu = () => {
         imageURL: "",
       });
     } catch (error) {
-      console.error("Error adding pet:", error.response?.data || error.message);
+      console.error("Error adding :", error.response?.data || error.message);
     }
   };
   return (
