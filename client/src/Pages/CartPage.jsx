@@ -4,29 +4,46 @@ import Navbar from "../Component/Navbar.jsx";
 import axios from "axios";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import { generateMixedId } from "../utils/Helper.jsx";
+
 const CartPage = () => {
   const { cartItem, increaseqty, decreaseqty, removeitem, clearcart } =
     useContext(CartContext);
+
   const [customerData, setCustomerData] = useState({
     customername: "",
-    contactnumber: "",
+    CustomerUID: "",
     tableno: "",
   });
+
   const user = localStorage.getItem("userlogin");
+
   useEffect(() => {
     if (!user) {
-      const savedContact = localStorage.getItem("MyOrderId");
+      const savedUID = localStorage.getItem("CustomerUID");
       const savedName = localStorage.getItem("CustomerName");
 
-      setCustomerData({
-        customername: savedName || "",
-        contactnumber: savedContact || "",
-        tableno: "",
-      });
+      if (savedUID) {
+        setCustomerData({
+          customername: savedName || "",
+          CustomerUID: savedUID,
+          tableno: "",
+        });
+      } else {
+        const newUID = generateMixedId(savedName || "Guest");
+
+        localStorage.setItem("CustomerUID", newUID);
+
+        setCustomerData({
+          customername: savedName || "",
+          CustomerUID: newUID,
+          tableno: "",
+        });
+      }
     } else {
       setCustomerData({
         customername: "",
-        contactnumber: "",
+        CustomerUID: "",
         tableno: "",
       });
     }
@@ -44,39 +61,44 @@ const CartPage = () => {
   }));
   const orderData = {
     customerName: customerData.customername,
-    customerContact: customerData.contactnumber,
+    CustomerUID: customerData.CustomerUID,
     tableNumber: customerData.tableno,
     orderItems: orderitem,
     totalAmount: totalamount,
   };
   const postOrder = async () => {
     try {
+      console.log(orderData);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/order`,
         orderData
       );
+      console.log("res", response);
+
       toast.success("Order Placed Successfully!", {
         icon: "🍜",
         duration: 3000,
       });
       localStorage.removeItem("cartItems");
+
       if (!user) {
-        localStorage.setItem("MyOrderId", customerData.contactnumber);
         localStorage.setItem("CustomerName", customerData.customername);
       }
 
       clearcart();
+
       setCustomerData({
         customername: "",
-        contactnumber: "",
+        CustomerUID: customerData.CustomerUID,
         tableno: "",
       });
     } catch (error) {
-      toast.error(error.response.data.message || "Failed to place order", {
+      toast.error(error.response?.data?.message || "Failed to place order", {
         duration: 3000,
       });
     }
   };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -179,12 +201,9 @@ const CartPage = () => {
             </div>
           </div>
         )}
-
         {cartItem.length > 0 && (
           <div className="bg-white rounded-xl shadow p-6 mt-6 max-w-md mx-auto">
-            <h2 className="font-semibold text-lg mb-4">
-              {user ? "Enter Customer Details" : "Customer Details"}
-            </h2>
+            <h2 className="font-semibold text-lg mb-4">Customer Details</h2>
 
             <input
               type="text"
@@ -194,19 +213,6 @@ const CartPage = () => {
                 setCustomerData({
                   ...customerData,
                   customername: e.target.value,
-                })
-              }
-              className="w-full mb-4 p-2 border rounded"
-            />
-
-            <input
-              type="text"
-              placeholder="Contact Number"
-              value={customerData.contactnumber}
-              onChange={(e) =>
-                setCustomerData({
-                  ...customerData,
-                  contactnumber: e.target.value,
                 })
               }
               className="w-full mb-4 p-2 border rounded"

@@ -31,7 +31,7 @@ const MyOrder = () => {
     }
   };
   useEffect(() => {
-    const savedId = localStorage.getItem("MyOrderId");
+    const savedId = localStorage.getItem("CustomerUID");
     if (savedId) setOrderId(savedId);
   }, []);
   const fetchMyOrder = async () => {
@@ -104,10 +104,6 @@ const MyOrder = () => {
                 <p>
                   👤 <span className="font-medium">Name:</span>{" "}
                   {order.customerName}
-                </p>
-                <p>
-                  📞 <span className="font-medium">Contact:</span>{" "}
-                  {order.customerContact}
                 </p>
                 <p>
                   🍽 <span className="font-medium">Table:</span>{" "}

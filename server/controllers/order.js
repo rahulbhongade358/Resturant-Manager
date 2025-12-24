@@ -1,13 +1,8 @@
 import Order from "../models/Order.js";
 import Table from "../models/Table.js";
 const postOrder = async (req, res) => {
-  const {
-    customerName,
-    customerContact,
-    tableNumber,
-    orderItems,
-    totalAmount,
-  } = req.body;
+  const { customerName, CustomerUID, tableNumber, orderItems, totalAmount } =
+    req.body;
   if (!customerName || !tableNumber || !orderItems || !totalAmount) {
     return res.status(400).json({
       success: false,
@@ -26,7 +21,7 @@ const postOrder = async (req, res) => {
   try {
     const order = new Order({
       customerName,
-      customerContact,
+      CustomerUID,
       tableNumber,
       orderItems,
       totalAmount,
@@ -60,9 +55,10 @@ const getOrder = async (req, res) => {
 const getCustomerOrder = async (req, res) => {
   const { orderId } = req.query;
   try {
-    const getOrder = await Order.find({ customerContact: orderId }).sort({
+    const getOrder = await Order.find({ CustomerUID: orderId }).sort({
       createdAt: -1,
     });
+    console.log(getOrder);
     res.json({
       status: true,
       data: getOrder,
@@ -84,7 +80,7 @@ const dashboardSummary = async (req, res) => {
   const preparingOrders = await Order.countDocuments({ status: "Preparing" });
   const deliveredOrders = await Order.countDocuments({ status: "Delivered" });
 
-  const customers = await Order.distinct("customerContact");
+  const customers = await Order.distinct("CustomerUID");
 
   const profit = await Order.aggregate([
     { $group: { _id: null, total: { $sum: "$totalAmount" } } },

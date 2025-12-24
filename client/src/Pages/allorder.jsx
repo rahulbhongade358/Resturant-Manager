@@ -101,10 +101,6 @@ const Allorder = () => {
                   {order.customerName}
                 </div>
                 <div>
-                  <span className="font-medium">Phone:</span>{" "}
-                  {order.customerContact}
-                </div>
-                <div>
                   <span className="font-medium">Table:</span>{" "}
                   {order.tableNumber}
                 </div>

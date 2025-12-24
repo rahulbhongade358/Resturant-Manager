@@ -36,9 +36,6 @@ const OrdersTable = () => {
                     <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                       {order.customerName}
                     </td>
-                    <td className="px-4 py-3 hidden md:table-cell">
-                      {order.customerContact}
-                    </td>
                     <td className="px-2 sm:px-4 py-2 sm:py-3 whitespace-nowrap">
                       {order.tableNumber}
                     </td>
