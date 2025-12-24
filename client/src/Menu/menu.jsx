@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext } from "react";
 import Navbar from "../Component/Navbar";
 import { Link } from "react-router";
 import { CartContext } from "../Context/CartContext.jsx";
@@ -41,20 +41,20 @@ const Menu = () => {
 
         {errors && <p className="text-red-500">{errors}</p>}
         {skeletonLoading ? (
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
-    {Array(6)
-      .fill(0)
-      .map((_, index) => (
-        <Skeleton
-          key={index}
-          width={400}
-          height={260}
-          baseColor="#d1d5db"
-          highlightColor="#f3f4f6"
-          borderRadius={8}
-        />
-      ))}
-  </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
+            {Array(6)
+              .fill(0)
+              .map((_, index) => (
+                <Skeleton
+                  key={index}
+                  width={400}
+                  height={260}
+                  baseColor="#d1d5db"
+                  highlightColor="#f3f4f6"
+                  borderRadius={8}
+                />
+              ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
             {menu.map((i) => (
@@ -103,13 +103,6 @@ const Menu = () => {
                       >
                         +
                       </button>
-                      <Link to="/cartpage">
-                        {" "}
-                        <button className=" w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-2 rounded-xl ml-4">
-                          {" "}
-                          Go to Cart{" "}
-                        </button>
-                      </Link>
                     </div>
                   ) : (
                     <button
@@ -122,6 +115,15 @@ const Menu = () => {
                 </div>
               </div>
             ))}
+            {cartItem.length > 0 && (
+              <div className="fixed bottom-6 w-full flex justify-center z-50">
+                <Link to="/cartpage">
+                  <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 py-3 rounded-full shadow-xl animate-bounce">
+                    Go to Cart ({cartItem.length})
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
         )}
       </div>
