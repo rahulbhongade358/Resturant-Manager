@@ -3,8 +3,8 @@ import { model, Schema } from "mongoose";
 const orderSchema = new Schema(
   {
     customerName: { type: String, required: true },
-    CustomerUID: { type: Number, required: true },
-    tableNumber: { type: Number, required: true },
+    CustomerUID: { type: String, required: true },
+    tableNumber: { type: String, required: true },
 
     orderItems: [
       {

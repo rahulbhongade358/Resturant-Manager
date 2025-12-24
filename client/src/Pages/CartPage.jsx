@@ -68,12 +68,10 @@ const CartPage = () => {
   };
   const postOrder = async () => {
     try {
-      console.log(orderData);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/order`,
         orderData
       );
-      console.log("res", response);
 
       toast.success("Order Placed Successfully!", {
         icon: "🍜",

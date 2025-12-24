@@ -58,7 +58,6 @@ const getCustomerOrder = async (req, res) => {
     const getOrder = await Order.find({ CustomerUID: orderId }).sort({
       createdAt: -1,
     });
-    console.log(getOrder);
     res.json({
       status: true,
       data: getOrder,
