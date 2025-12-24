@@ -59,7 +59,7 @@ const CartPage = () => {
         icon: "🍜",
         duration: 3000,
       });
-
+      localStorage.removeItem("cartItems");
       if (!user) {
         localStorage.setItem("MyOrderId", customerData.contactnumber);
         localStorage.setItem("CustomerName", customerData.customername);
@@ -72,8 +72,9 @@ const CartPage = () => {
         tableno: "",
       });
     } catch (error) {
-      toast.error(error.response.data.message || "Failed to place order", 
-        { duration: 3000})
+      toast.error(error.response.data.message || "Failed to place order", {
+        duration: 3000,
+      });
     }
   };
   return (
