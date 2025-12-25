@@ -9,7 +9,8 @@ const SummaryCard = () => {
     <div>
       {errors && <p className="text-red-500">{errors}</p>}
       <h1 className="text-2xl font-bold mb-4">Summary Cards</h1>
-      {skeletonLoading?( <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
+      {skeletonLoading.summary ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
           {Array(6)
             .fill(0)
             .map((_, index) => (
@@ -22,8 +23,8 @@ const SummaryCard = () => {
                 borderRadius={8}
               />
             ))}
-        </div>):(
-
+        </div>
+      ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
           <div className="bg-white p-5 shadow rounded-lg">
             <h2 className="text-gray-600 font-semibold">Total Orders</h2>
@@ -31,21 +32,21 @@ const SummaryCard = () => {
               {summary.totalOrders}
             </p>
           </div>
-  
+
           <div className="bg-white p-5 shadow rounded-lg">
             <h2 className="text-gray-600 font-semibold">Total Customers</h2>
             <p className="text-3xl font-bold text-gray-800 mt-1">
               {summary.totalCustomers}
             </p>
           </div>
-  
+
           <div className="bg-white p-5 shadow rounded-lg">
             <h2 className="text-gray-600 font-semibold">Total Profit</h2>
             <p className="text-3xl font-bold text-green-600 mt-1">
               ₹ {summary.totalProfit}
             </p>
           </div>
-  
+
           <div className="bg-white p-5 shadow rounded-lg">
             <h2 className="text-gray-600 font-semibold">Pending Orders</h2>
             <p className="text-3xl font-bold text-orange-600 mt-1">

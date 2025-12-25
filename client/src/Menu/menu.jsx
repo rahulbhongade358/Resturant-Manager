@@ -40,7 +40,7 @@ const Menu = () => {
         <h1 className="font-serif font-semibold text-3xl mb-4">Menu</h1>
 
         {errors && <p className="text-red-500">{errors}</p>}
-        {skeletonLoading ? (
+        {skeletonLoading.menu ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
             {Array(6)
               .fill(0)

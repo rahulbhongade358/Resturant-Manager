@@ -10,7 +10,7 @@ const TeamMembers = () => {
     <div className="p-4">
       <div>{errors}</div>
 
-      {skeletonLoading ? (
+      {skeletonLoading.team ? (
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3 ">
           <Skeleton width={150} height={30} />
           <Skeleton width={120} height={40} />
@@ -35,7 +35,7 @@ const TeamMembers = () => {
             </tr>
           </thead>
           <tbody>
-            {skeletonLoading
+            {skeletonLoading.team
               ? Array(4)
                   .fill(0)
                   .map((_, idx) => (
@@ -74,7 +74,7 @@ const TeamMembers = () => {
       </div>
 
       <div className="md:hidden space-y-4">
-        {skeletonLoading
+        {skeletonLoading.team
           ? Array(3)
               .fill(0)
               .map((_, idx) => (
