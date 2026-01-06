@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import { User, Mail, Phone, Lock, UserCog } from "lucide-react";
+import { useApi } from "../Context/ApiContext";
+import { useEffect } from "react";
 function SignUp() {
   const [userData, setUserData] = useState({
     name: "",
@@ -10,7 +12,25 @@ function SignUp() {
     password: "",
     role: "",
   });
+  const { team, errors, skeletonLoading, fetchTeamByID } = useApi();
 
+  const { userid } = useParams();
+  useEffect(() => {
+    if (userid) {
+      fetchTeamByID(userid);
+    }
+  }, [userid]);
+  useEffect(() => {
+    if (team && Object.keys(team).length > 0) {
+      setUserData({
+        name: team.name || "",
+        email: team.email || "",
+        phone: team.phone || "",
+        password: team.password || "",
+        role: team.role || "",
+      });
+    }
+  }, [team]);
   const signin = async () => {
     try {
       const response = await axios.post(

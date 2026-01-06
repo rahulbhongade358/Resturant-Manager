@@ -5,7 +5,8 @@ import { useApi } from "../Context/ApiContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const TeamMembers = () => {
-  const { team, errors, skeletonLoading } = useApi();
+  const { teams, errors, skeletonLoading } = useApi();
+
   return (
     <div className="p-4">
       <div>{errors}</div>
@@ -35,7 +36,7 @@ const TeamMembers = () => {
             </tr>
           </thead>
           <tbody>
-            {skeletonLoading.team
+            {skeletonLoading.teams
               ? Array(4)
                   .fill(0)
                   .map((_, idx) => (
@@ -54,15 +55,18 @@ const TeamMembers = () => {
                       </td>
                     </tr>
                   ))
-              : team.map((member) => (
+              : teams.map((member) => (
                   <tr key={member._id} className="border-b">
                     <td className="px-4 py-3">{member.name}</td>
                     <td className="px-4 py-3">{member.role}</td>
                     <td className="px-4 py-3">{member.phone}</td>
                     <td className="px-4 py-3 space-x-2">
-                      <button className="bg-yellow-500 text-white px-3 py-1 rounded">
+                      <Link
+                        to={`/edituser/${member._id}`}
+                        className="bg-yellow-500 text-white px-3 py-1 rounded"
+                      >
                         Edit
-                      </button>
+                      </Link>
                       <button className="bg-red-500 text-white px-3 py-1 rounded">
                         Delete
                       </button>
@@ -74,7 +78,7 @@ const TeamMembers = () => {
       </div>
 
       <div className="md:hidden space-y-4">
-        {skeletonLoading.team
+        {skeletonLoading.teams
           ? Array(3)
               .fill(0)
               .map((_, idx) => (
@@ -89,7 +93,7 @@ const TeamMembers = () => {
                   </div>
                 </div>
               ))
-          : team.map((member) => (
+          : teams.map((member) => (
               <div
                 key={member._id}
                 className="bg-white shadow rounded p-4 space-y-2"

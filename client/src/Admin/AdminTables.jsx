@@ -12,7 +12,7 @@ const AdminTables = () => {
       await axios.patch(
         `${import.meta.env.VITE_API_URL}/tables/${tableId}/toggle`
       );
-      fetchTables(); // refresh UI
+      fetchTables();
     } catch (err) {
       alert("Unable to update table status");
     }
@@ -22,7 +22,7 @@ const AdminTables = () => {
       await axios.post(`${import.meta.env.VITE_API_URL}/addtable`, {
         tableNumber,
       });
-      fetchTables(); // refresh UI
+      fetchTables();
     } catch (err) {
       alert("Unable to add table");
     }
@@ -74,7 +74,7 @@ const AdminTables = () => {
                 ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {tables.map((table) => (
                 <div
                   key={table._id}

@@ -1,17 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router";
 const ApiContext = createContext();
 
 export const ApiProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [tables, setTables] = useState([]);
-  const [team, setTeam] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const [team, setTeam] = useState(null);
   const [menu, setMenu] = useState([]);
   const [summary, setSummary] = useState([]);
   const [errors, setErrors] = useState("");
   const [skeletonLoading, setSkeletonLoading] = useState({
     orders: false,
     tables: false,
+    teams: false,
     team: false,
     menu: false,
     summary: false,
@@ -52,17 +55,17 @@ export const ApiProvider = ({ children }) => {
       console.error(error);
     }
   };
-  const fetchTeam = async () => {
-    setSkeletonLoading((prev) => ({ ...prev, team: true }));
+  const fetchTeams = async () => {
+    setSkeletonLoading((prev) => ({ ...prev, teams: true }));
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/allusers`
       );
-      setTeam(response.data.data);
-      setSkeletonLoading((prev) => ({ ...prev, team: false }));
+      setTeams(response.data.data);
+      setSkeletonLoading((prev) => ({ ...prev, teams: false }));
     } catch (e) {
       setErrors(e.response.data.message);
-      setTeam([]);
+      setTeams([]);
     }
   };
   const fetchMenu = async () => {
@@ -76,11 +79,23 @@ export const ApiProvider = ({ children }) => {
       setMenu([]);
     }
   };
-
+  const fetchTeamByID = async (userid) => {
+    setSkeletonLoading((prev) => ({ ...prev, team: true }));
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/getUserbyID/${userid}`
+      );
+      setTeam(response.data.data);
+      setSkeletonLoading((prev) => ({ ...prev, team: false }));
+    } catch (e) {
+      setErrors(e.response.data.message);
+      setTeam(null);
+    }
+  };
   useEffect(() => {
     fetchOrders();
     fetchTables();
-    fetchTeam();
+    fetchTeams();
     fetchMenu();
     fetchSummary();
   }, []);
@@ -92,10 +107,12 @@ export const ApiProvider = ({ children }) => {
         orders,
         tables,
         team,
+        teams,
         menu,
         summary,
         skeletonLoading,
-        fetchTeam,
+        fetchTeams,
+        fetchTeamByID,
         fetchMenu,
         fetchOrders,
         fetchSummary,

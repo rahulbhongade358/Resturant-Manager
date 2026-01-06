@@ -10,7 +10,12 @@ import {
   postOrder,
   updateOrderStatus,
 } from "./controllers/order.js";
-import { getAllUsers, postLogin, postSignUp } from "./controllers/user.js";
+import {
+  getAllUsers,
+  postLogin,
+  postSignUp,
+  getUserbyID,
+} from "./controllers/user.js";
 import {
   addTable,
   getAllTables,
@@ -39,7 +44,7 @@ app.put("/updateorderstatus/:orderId", updateOrderStatus);
 app.get("/tables", getAllTables);
 app.patch("/tables/:tableId/toggle", toggleTableStatus);
 app.post("/addtable", addTable);
-
+app.get("/getUserbyID/:UserID", getUserbyID);
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_URL);

@@ -14,6 +14,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import Unauthorized from "./Component/Unauthorized.jsx";
 import Dashboard from "./Dashboard/Dashboard.jsx";
 import { ApiProvider } from "./Context/ApiContext.jsx";
+import UserDetails from "./Admin/UserDetails.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <ApiProvider>
@@ -50,6 +51,14 @@ createRoot(document.getElementById("root")).render(
           <Route path="/myorder" element={<MyOrder />} />
           <Route
             path="/signup"
+            element={
+              <ProtectedRoute allowed={["Admin"]}>
+                <SignUp />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edituser/:userid"
             element={
               <ProtectedRoute allowed={["Admin"]}>
                 <SignUp />

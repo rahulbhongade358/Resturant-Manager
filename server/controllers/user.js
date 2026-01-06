@@ -100,5 +100,22 @@ const getAllUsers = async (req, res) => {
     });
   }
 };
-
-export { postLogin, postSignUp, getAllUsers };
+const getUserbyID = async (req, res) => {
+  const { UserID } = req.params;
+  try {
+    const user = await User.findById(UserID);
+    res.status(200).json({
+      status: true,
+      data: user,
+      message: "User Fetched Successfull",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "❌ Server Error",
+      error: error.message,
+    });
+  }
+};
+export { postLogin, postSignUp, getAllUsers, getUserbyID };
