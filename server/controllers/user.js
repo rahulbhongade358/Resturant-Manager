@@ -118,4 +118,55 @@ const getUserbyID = async (req, res) => {
     });
   }
 };
-export { postLogin, postSignUp, getAllUsers, getUserbyID };
+
+const putUserbyID = async (req, res) => {
+  const { UserID } = req.params;
+  const { name, email, phone, password, role } = req.body;
+  try {
+    await User.updateOne(
+      { _id: UserID },
+      { name, email, phone, password, role }
+    );
+
+    const updateuser = await User.findById(UserID);
+    res.json({
+      success: true,
+      data: updateuser,
+      message: "User Update Successfull",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "❌ Server Error",
+      error: error.message,
+    });
+  }
+};
+const deleteUserbyID = async (req, res) => {
+  const { UserID } = req.params;
+  await User.deleteOne({ _id: UserID });
+  const updateUser = await User.find();
+  try {
+    res.json({
+      status: true,
+      data: updateUser,
+      message: `list of ${updateUser.length} Users`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      data: null,
+      message: "❌ Server Error",
+      error: error.message,
+    });
+  }
+};
+export {
+  postLogin,
+  postSignUp,
+  getAllUsers,
+  getUserbyID,
+  putUserbyID,
+  deleteUserbyID,
+};

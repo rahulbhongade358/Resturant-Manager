@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { User, Mail, Phone, Lock, UserCog } from "lucide-react";
 import { useApi } from "../Context/ApiContext";
 import { useEffect } from "react";
 function SignUp() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -12,7 +13,7 @@ function SignUp() {
     password: "",
     role: "",
   });
-  const { team, errors, skeletonLoading, fetchTeamByID } = useApi();
+  const { team, errors, skeletonLoading, fetchTeamByID, fetchTeams } = useApi();
 
   const { userid } = useParams();
   useEffect(() => {
@@ -37,7 +38,10 @@ function SignUp() {
         `${import.meta.env.VITE_API_URL}/signup`,
         userData
       );
-      console.log(response);
+      setTimeout(() => {
+        navigate("/dashboard");
+        fetchTeams();
+      }, 2000);
     } catch (error) {
       console.error(
         "Error adding user:",
@@ -45,7 +49,23 @@ function SignUp() {
       );
     }
   };
-
+  const update = async () => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/putUserbyID/${userid}`,
+        userData
+      );
+      setTimeout(() => {
+        navigate("/dashboard");
+        fetchTeams();
+      }, 2000);
+    } catch (error) {
+      console.error(
+        "Error adding user:",
+        error.response?.data || error.message
+      );
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-amber-50">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
@@ -131,6 +151,14 @@ function SignUp() {
           >
             Add Member
           </button>
+          {userid && (
+            <button
+              onClick={update}
+              className="bg-amber-600 text-white py-2 rounded-lg font-semibold hover:bg-amber-700 transition"
+            >
+              Update
+            </button>
+          )}
         </div>
 
         <p className="text-center text-sm text-gray-600 mt-6">

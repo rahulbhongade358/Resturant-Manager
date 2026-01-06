@@ -1,9 +1,17 @@
 import Menu from "../models/Menu.js";
 
 const postMenu = async (req, res) => {
-  const { Dishname, Dishtype, decription, price, imageURL } = req.body;
+  const { Dishname, Dishtype, decription, fullprice, halfprice, imageURL } =
+    req.body;
 
-  if (!Dishname || !Dishtype || !decription || !price || !imageURL) {
+  if (
+    !Dishname ||
+    !Dishtype ||
+    !decription ||
+    !fullprice ||
+    !halfprice ||
+    !imageURL
+  ) {
     return res.status(400).json({
       success: false,
       data: null,
@@ -15,7 +23,8 @@ const postMenu = async (req, res) => {
       Dishname,
       Dishtype,
       decription,
-      price,
+      fullprice,
+      halfprice,
       imageURL,
     });
     const saveMenu = await menu.save();

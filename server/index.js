@@ -15,6 +15,8 @@ import {
   postLogin,
   postSignUp,
   getUserbyID,
+  putUserbyID,
+  deleteUserbyID,
 } from "./controllers/user.js";
 import {
   addTable,
@@ -45,6 +47,8 @@ app.get("/tables", getAllTables);
 app.patch("/tables/:tableId/toggle", toggleTableStatus);
 app.post("/addtable", addTable);
 app.get("/getUserbyID/:UserID", getUserbyID);
+app.put("/putUserbyID/:UserID", putUserbyID);
+app.delete("/deleteUser/:UserID", deleteUserbyID);
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_URL);

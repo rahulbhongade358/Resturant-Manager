@@ -5,8 +5,20 @@ import { useApi } from "../Context/ApiContext";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 const TeamMembers = () => {
-  const { teams, errors, skeletonLoading } = useApi();
-
+  const { teams, errors, skeletonLoading, removeTeamLocal } = useApi();
+  const deleteUser = async (userid) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/deleteUser/${userid}`
+      );
+      removeTeamLocal(userid);
+    } catch (error) {
+      console.error(
+        "Error adding user:",
+        error.response?.data || error.message
+      );
+    }
+  };
   return (
     <div className="p-4">
       <div>{errors}</div>
@@ -67,7 +79,12 @@ const TeamMembers = () => {
                       >
                         Edit
                       </Link>
-                      <button className="bg-red-500 text-white px-3 py-1 rounded">
+                      <button
+                        onClick={() => {
+                          deleteUser(member._id);
+                        }}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
                         Delete
                       </button>
                     </td>
@@ -109,10 +126,18 @@ const TeamMembers = () => {
                 </p>
 
                 <div className="flex gap-3 pt-2">
-                  <button className="bg-yellow-500 text-white px-4 py-1 rounded w-full">
+                  <Link
+                    to={`/edituser/${member._id}`}
+                    className="bg-yellow-500 text-white px-4 py-1 rounded w-full"
+                  >
                     Edit
-                  </button>
-                  <button className="bg-red-500 text-white px-4 py-1 rounded w-full">
+                  </Link>
+                  <button
+                    onClick={() => {
+                      deleteUser(member._id);
+                    }}
+                    className="bg-red-500 text-white px-4 py-1 rounded w-full"
+                  >
                     Delete
                   </button>
                 </div>

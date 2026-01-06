@@ -16,9 +16,6 @@ const OrdersTable = () => {
                 <tr>
                   <th className="px-4 py-3 font-semibold">Order ID</th>
                   <th className="px-4 py-3 font-semibold">Customer</th>
-                  <th className="px-4 py-3 font-semibold hidden md:table-cell">
-                    Phone
-                  </th>
 
                   <th className="px-4 py-3 font-semibold">Table No</th>
                   <th className="px-4 py-3 font-semibold">Items</th>

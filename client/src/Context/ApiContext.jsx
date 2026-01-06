@@ -92,6 +92,10 @@ export const ApiProvider = ({ children }) => {
       setTeam(null);
     }
   };
+  const removeTeamLocal = (userid) => {
+    setTeams((prev) => prev.filter((user) => user._id !== userid));
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchTables();
@@ -117,6 +121,7 @@ export const ApiProvider = ({ children }) => {
         fetchOrders,
         fetchSummary,
         fetchTables,
+        removeTeamLocal,
       }}
     >
       {children}

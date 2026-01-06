@@ -14,7 +14,6 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import Unauthorized from "./Component/Unauthorized.jsx";
 import Dashboard from "./Dashboard/Dashboard.jsx";
 import { ApiProvider } from "./Context/ApiContext.jsx";
-import UserDetails from "./Admin/UserDetails.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <ApiProvider>
