@@ -10,6 +10,11 @@ const orderSchema = new Schema(
       {
         itemId: { type: Schema.Types.ObjectId, ref: "Menu", required: true },
         Dishname: { type: String, required: true },
+        portion: {
+          type: String,
+          enum: ["half", "full"],
+          required: true,
+        },
         price: { type: Number, required: true },
         quantity: { type: Number, required: true },
       },

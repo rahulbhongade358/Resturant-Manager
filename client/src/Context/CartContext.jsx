@@ -15,15 +15,18 @@ export const CartProvider = ({ children }) => {
   const addtocart = (item) => {
     dispatch({ type: "ADD_TO_CART", payload: item });
   };
-  const increaseqty = (id) => {
-    dispatch({ type: "INCREASE_QTY", payload: id });
+  const increaseqty = (item) => {
+    dispatch({ type: "INCREASE_QTY", payload: item });
   };
-  const decreaseqty = (id) => {
-    dispatch({ type: "DECREASE_QTY", payload: id });
+
+  const decreaseqty = (item) => {
+    dispatch({ type: "DECREASE_QTY", payload: item });
   };
-  const removeitem = (id) => {
-    dispatch({ type: "REMOVE_ITEM", payload: id });
+
+  const removeitem = (item) => {
+    dispatch({ type: "REMOVE_ITEM", payload: item });
   };
+
   const clearcart = () => {
     dispatch({ type: "CLEAR_CART" });
   };

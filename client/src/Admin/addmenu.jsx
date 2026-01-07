@@ -7,7 +7,8 @@ const Addmenu = () => {
     Dishname: "",
     Dishtype: "",
     decription: "",
-    price: "",
+    fullprice: "",
+    halfprice: "",
     imageURL: "",
   });
   const postMenu = async () => {
@@ -24,7 +25,8 @@ const Addmenu = () => {
         Dishname: "",
         Dishtype: "",
         decription: "",
-        price: "",
+        fullprice: "",
+        halfprice: "",
         imageURL: "",
       });
     } catch (error) {
@@ -98,14 +100,29 @@ const Addmenu = () => {
                 type="text"
                 className="block py-3 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
                 placeholder=" "
-                value={foodData.price}
+                value={foodData.fullprice}
                 onChange={(e) =>
-                  setFoodData({ ...foodData, price: e.target.value })
+                  setFoodData({ ...foodData, fullprice: e.target.value })
                 }
                 required
               />
               <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Price
+                full price
+              </label>
+            </div>
+            <div className="relative z-0 w-full group">
+              <input
+                type="text"
+                className="block py-3 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                placeholder=" "
+                value={foodData.halfprice}
+                onChange={(e) =>
+                  setFoodData({ ...foodData, halfprice: e.target.value })
+                }
+                required
+              />
+              <label className="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                half price
               </label>
             </div>
 

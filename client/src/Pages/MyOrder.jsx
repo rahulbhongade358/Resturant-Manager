@@ -117,7 +117,7 @@ const MyOrder = () => {
                 {order.orderItems.map((item, index) => (
                   <li key={index} className="flex justify-between py-2">
                     <span>
-                      {item.Dishname} × {item.quantity}
+                      {item.Dishname} ({item.portion}) × {item.quantity}
                     </span>
                     <span className="font-medium">
                       ₹{item.price * item.quantity}

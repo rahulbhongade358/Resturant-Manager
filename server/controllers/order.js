@@ -17,7 +17,9 @@ const postOrder = async (req, res) => {
       message: "This table is currently inactive",
     });
   }
-
+  if (!orderItems.length) {
+    return res.status(400).json({ message: "Order items cannot be empty" });
+  }
   try {
     const order = new Order({
       customerName,

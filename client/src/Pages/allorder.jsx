@@ -151,7 +151,7 @@ const Allorder = () => {
                     <ul className="list-disc pl-5 mt-1 space-y-1 text-sm">
                       {order.orderItems.map((item) => (
                         <li key={item.itemId}>
-                          {item.Dishname} × {item.quantity}
+                          {item.Dishname} ({item.portion}) × {item.quantity}
                         </li>
                       ))}
                     </ul>

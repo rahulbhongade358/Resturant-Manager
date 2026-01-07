@@ -10,121 +10,176 @@ const Menu = () => {
   const { cartItem, addtocart, increaseqty, decreaseqty } =
     useContext(CartContext);
 
-  const getQty = (id) => {
-    const item = cartItem.find((i) => i._id === id);
+  const getQty = (id, portion) => {
+    const item = cartItem.find((i) => i._id === id && i.portion === portion);
     return item ? item.quantity : 0;
   };
-  const handleAddToCartFirstTime = useCallback(
-    (item) => {
-      addtocart(item);
-    },
-    [cartItem]
-  );
 
-  const handleinccount = useCallback(
-    (_id) => {
-      increaseqty(_id);
-    },
-    [cartItem]
-  );
-  const handledeccount = useCallback(
-    (_id) => {
-      decreaseqty(_id);
-    },
-    [cartItem]
-  );
+  const handleAddToCartFirstTime = (item) => {
+    addtocart(item);
+  };
+
+  const handleinccount = (item, portion) => {
+    const cartItemObj = cartItem.find(
+      (i) => i._id === item._id && i.portion === portion
+    );
+    if (cartItemObj) increaseqty(cartItemObj);
+  };
+
+  const handledeccount = (item, portion) => {
+    const cartItemObj = cartItem.find(
+      (i) => i._id === item._id && i.portion === portion
+    );
+    if (cartItemObj) decreaseqty(cartItemObj);
+  };
+
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="flex flex-col justify-center items-center mt-10">
-        <h1 className="font-serif font-semibold text-3xl mb-4">Menu</h1>
 
-        {errors && <p className="text-red-500">{errors}</p>}
+      <div className="max-w-[1400px] mx-auto px-4 py-10">
+        <h1 className="text-4xl font-serif font-bold text-center text-gray-800 mb-10">
+          Our Menu
+        </h1>
+
+        {errors && <p className="text-red-500 text-center mb-4">{errors}</p>}
+
+        {/* SKELETON LOADING */}
         {skeletonLoading.menu ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array(6)
               .fill(0)
               .map((_, index) => (
                 <Skeleton
                   key={index}
-                  width={400}
-                  height={260}
-                  baseColor="#d1d5db"
-                  highlightColor="#f3f4f6"
-                  borderRadius={8}
+                  height={360}
+                  borderRadius={16}
+                  baseColor="#e5e7eb"
+                  highlightColor="#f9fafb"
                 />
               ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 w-full max-w-[1300px]">
-            {menu.map((i) => (
-              <div
-                key={i._id}
-                className="relative rounded-2xl overflow-hidden shadow-xl shadow-gray-700/30 hover:scale-105 transition-all duration-300 cursor-pointer group bg-black"
-              >
-                <img
-                  src={i.imageURL}
-                  alt={i.Dishname}
-                  className="w-full h-[260px] object-cover group-hover:brightness-75 transition-all duration-300"
-                />
+          <>
+            {/* MENU GRID */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {menu.map((i) => (
+                <div
+                  key={i._id}
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                >
+                  {/* IMAGE */}
+                  <img
+                    src={i.imageURL}
+                    alt={i.Dishname}
+                    className="w-full h-[220px] object-cover"
+                  />
 
-                <div className="absolute bottom-0 w-full h-[55%] bg-gradient-to-t: from-black via-black/60 to-transparent"></div>
-
-                <div className="absolute bottom-3 left-4 right-4 text-white drop-shadow-md">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-[20px] font-bold text-amber-200">
+                  {/* CONTENT */}
+                  <div className="p-5">
+                    <h3 className="text-xl font-bold text-gray-800 mb-1">
                       {i.Dishname}
                     </h3>
 
-                    <p className="bg-amber-400/90 text-black px-3 py-1 rounded-lg text-[14px] font-semibold">
-                      ₹ {i.price}
+                    <p className="text-sm text-gray-500 mb-4 line-clamp-2">
+                      {i.decription}
                     </p>
-                  </div>
 
-                  <p className="mt-1 text-[14px] text-gray-300 font-light leading-tight">
-                    {i.decription}
-                  </p>
-                  {getQty(i._id) > 0 ? (
-                    <div className="flex items-center gap-3 mt-3">
-                      <button
-                        className="px-3 py-1 bg-gray-700 rounded"
-                        onClick={() => handledeccount(i._id)}
-                      >
-                        -
-                      </button>
+                    {/* HALF */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-gray-600 font-medium">Half</span>
 
-                      <span className="font-semibold text-lg">
-                        {getQty(i._id)}
-                      </span>
+                      {getQty(i._id, "half") > 0 ? (
+                        <div className="flex items-center gap-3">
+                          <button
+                            className="w-8 h-8 rounded-full bg-gray-200 text-lg font-bold hover:bg-gray-300"
+                            onClick={() => handledeccount(i, "half")}
+                          >
+                            −
+                          </button>
 
-                      <button
-                        className="px-3 py-1 bg-gray-700 rounded"
-                        onClick={() => handleinccount(i._id)}
-                      >
-                        +
-                      </button>
+                          <span className="font-semibold">
+                            {getQty(i._id, "half")}
+                          </span>
+
+                          <button
+                            className="w-8 h-8 rounded-full bg-gray-200 text-lg font-bold hover:bg-gray-300"
+                            onClick={() => handleinccount(i, "half")}
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-4 py-1.5 rounded-full font-semibold"
+                          onClick={() =>
+                            handleAddToCartFirstTime({
+                              ...i,
+                              portion: "half",
+                              price: i.halfprice,
+                            })
+                          }
+                        >
+                          Add ₹{i.halfprice}
+                        </button>
+                      )}
                     </div>
-                  ) : (
-                    <button
-                      className="mt-3 w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold py-2 rounded-xl"
-                      onClick={() => handleAddToCartFirstTime(i)}
-                    >
-                      ADD TO CART
-                    </button>
-                  )}
+
+                    {/* FULL */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 font-medium">Full</span>
+
+                      {getQty(i._id, "full") > 0 ? (
+                        <div className="flex items-center gap-3">
+                          <button
+                            className="w-8 h-8 rounded-full bg-gray-200 text-lg font-bold hover:bg-gray-300"
+                            onClick={() => handledeccount(i, "full")}
+                          >
+                            −
+                          </button>
+
+                          <span className="font-semibold">
+                            {getQty(i._id, "full")}
+                          </span>
+
+                          <button
+                            className="w-8 h-8 rounded-full bg-gray-200 text-lg font-bold hover:bg-gray-300"
+                            onClick={() => handleinccount(i, "full")}
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-4 py-1.5 rounded-full font-semibold"
+                          onClick={() =>
+                            handleAddToCartFirstTime({
+                              ...i,
+                              portion: "full",
+                              price: i.fullprice,
+                            })
+                          }
+                        >
+                          Add ₹{i.fullprice}
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* FLOATING CART BUTTON */}
             {cartItem.length > 0 && (
-              <div className="fixed bottom-6 w-full flex justify-center z-50">
+              <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
                 <Link to="/cartpage">
-                  <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 py-3 rounded-full shadow-xl animate-bounce">
-                    Go to Cart ({cartItem.length})
+                  <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-full shadow-xl transition">
+                    View Cart ({cartItem.length})
                   </button>
                 </Link>
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </div>

@@ -40,7 +40,7 @@ const OrdersTable = () => {
                       <ul className="list-disc pl-4 space-y-1">
                         {order.orderItems.map((item) => (
                           <li key={item.itemId}>
-                            {item.Dishname} × {item.quantity}
+                            {item.Dishname} ({item.portion}) × {item.quantity}
                           </li>
                         ))}
                       </ul>

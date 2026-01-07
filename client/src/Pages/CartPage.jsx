@@ -41,24 +41,29 @@ const CartPage = () => {
         });
       }
     } else {
+      const adminUID = generateMixedId("ADMIN");
+
       setCustomerData({
-        customername: "",
-        CustomerUID: "",
+        customername: "Walk-in Customer",
+        CustomerUID: adminUID,
         tableno: "",
       });
     }
   }, [user]);
 
   const totalamount = cartItem.reduce(
-    (sum, item) => sum + item.quantity * item.price,
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
+
   const orderitem = cartItem.map((item) => ({
     itemId: item._id,
     Dishname: item.Dishname,
+    portion: item.portion,
     price: item.price,
     quantity: item.quantity,
   }));
+
   const orderData = {
     customerName: customerData.customername,
     CustomerUID: customerData.CustomerUID,
@@ -98,17 +103,17 @@ const CartPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-amber-50">
       <Navbar />
 
       <div className="max-w-5xl mx-auto mt-10 p-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+        <h1 className="text-3xl font-extrabold text-amber-700 mb-8 text-center">
           🛒 Your Cart
         </h1>
-        <div className="hidden md:block bg-white shadow-lg rounded-xl overflow-hidden">
+        <div className="hidden md:block bg-white shadow-xl rounded-2xl overflow-hidden border border-amber-200">
           <table className="w-full text-sm">
-            <thead className="bg-gray-200">
-              <tr>
+            <thead className="bg-amber-200 text-amber-900">
+              <tr className="border-b hover:bg-amber-50 transition">
                 <th className="px-6 py-3 text-left">Dish</th>
                 <th className="px-6 py-3 text-center">Qty</th>
                 <th className="px-6 py-3 text-center">Price</th>
@@ -119,19 +124,21 @@ const CartPage = () => {
             <tbody>
               {cartItem.map((item) => (
                 <tr key={item._id} className="border-b">
-                  <td className="px-6 py-4 font-medium">{item.Dishname}</td>
+                  <td className="px-6 py-4 font-medium">
+                    {item.Dishname} ({item.portion})
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex justify-center items-center gap-3">
                       <button
-                        onClick={() => decreaseqty(item._id)}
-                        className="p-1 bg-gray-200 rounded"
+                        onClick={() => decreaseqty(item)}
+                        className="p-1 bg-amber-200 hover:bg-amber-300 rounded-full"
                       >
                         <Minus size={16} />
                       </button>
                       <span>{item.quantity}</span>
                       <button
-                        onClick={() => increaseqty(item._id)}
-                        className="p-1 bg-gray-200 rounded"
+                        onClick={() => increaseqty(item)}
+                        className="p-1 bg-amber-200 hover:bg-amber-300 rounded-full"
                       >
                         <Plus size={16} />
                       </button>
@@ -143,8 +150,8 @@ const CartPage = () => {
                   </td>
                   <td className="px-6 py-4 text-center">
                     <button
-                      onClick={() => removeitem(item._id)}
-                      className="text-red-600"
+                      onClick={() => removeitem(item)}
+                      className="text-red-500 hover:text-red-700"
                     >
                       <Trash2 size={18} />
                     </button>
@@ -156,11 +163,17 @@ const CartPage = () => {
         </div>
         <div className="md:hidden space-y-4">
           {cartItem.map((item) => (
-            <div key={item._id} className="bg-white rounded-xl shadow p-4">
+            <div
+              key={item._id}
+              className="bg-white rounded-2xl shadow-md border border-amber-200 p-4"
+            >
               <div className="flex justify-between">
-                <h3 className="font-semibold">{item.Dishname}</h3>
+                <h3 className="font-semibold">
+                  {" "}
+                  {item.Dishname} ({item.portion})
+                </h3>
                 <button
-                  onClick={() => removeitem(item._id)}
+                  onClick={() => removeitem(item)}
                   className="text-red-500"
                 >
                   <Trash2 size={18} />
@@ -171,14 +184,14 @@ const CartPage = () => {
               <div className="flex justify-between items-center mt-3">
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => decreaseqty(item._id)}
+                    onClick={() => decreaseqty(item)}
                     className="p-1 bg-gray-200 rounded"
                   >
                     <Minus size={16} />
                   </button>
                   <span>{item.quantity}</span>
                   <button
-                    onClick={() => increaseqty(item._id)}
+                    onClick={() => increaseqty(item)}
                     className="p-1 bg-gray-200 rounded"
                   >
                     <Plus size={16} />
@@ -192,18 +205,21 @@ const CartPage = () => {
           ))}
         </div>
         {cartItem.length > 0 && (
-          <div className="bg-white rounded-xl shadow p-4 mt-6">
+          <div className="bg-white rounded-2xl shadow-md border border-amber-300 p-4 mt-6">
             <div className="flex justify-between font-semibold text-lg">
               <span>Total</span>
-              <span>₹{totalamount}</span>
+              <span className="text-xl font-bold text-amber-700">
+                ₹{totalamount}
+              </span>
             </div>
           </div>
         )}
         {cartItem.length > 0 && (
-          <div className="bg-white rounded-xl shadow p-6 mt-6 max-w-md mx-auto">
+          <div className="bg-white rounded-2xl shadow-lg border border-amber-300 p-6 mt-6 max-w-md mx-auto">
             <h2 className="font-semibold text-lg mb-4">Customer Details</h2>
 
             <input
+              className="w-full mb-4 p-2 border border-amber-300 rounded focus:outline-none focus:ring-2 focus:ring-amber-400"
               type="text"
               placeholder="Customer Name"
               value={customerData.customername}
@@ -213,7 +229,6 @@ const CartPage = () => {
                   customername: e.target.value,
                 })
               }
-              className="w-full mb-4 p-2 border rounded"
             />
 
             <input
@@ -229,15 +244,16 @@ const CartPage = () => {
             <div className="flex justify-between">
               <button
                 onClick={clearcart}
-                className="px-4 py-2 bg-red-500 text-white rounded"
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
               >
                 Clear Cart
               </button>
+
               <button
                 onClick={postOrder}
-                className="px-4 py-2 bg-green-600 text-white rounded"
+                className="px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-semibold shadow-md"
               >
-                Place Order
+                Place Order 🍽
               </button>
             </div>
           </div>
