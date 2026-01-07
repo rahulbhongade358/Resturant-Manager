@@ -9,7 +9,7 @@ const Menu = () => {
   const { menu, errors, skeletonLoading } = useApi();
   const { cartItem, addtocart, increaseqty, decreaseqty } =
     useContext(CartContext);
-
+  const totalItems = cartItem.reduce((sum, item) => sum + item.quantity, 0);
   const getQty = (id, portion) => {
     const item = cartItem.find((i) => i._id === id && i.portion === portion);
     return item ? item.quantity : 0;
@@ -174,7 +174,7 @@ const Menu = () => {
               <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50">
                 <Link to="/cartpage">
                   <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-full shadow-xl transition">
-                    View Cart ({cartItem.length})
+                    View Cart ({totalItems})
                   </button>
                 </Link>
               </div>
