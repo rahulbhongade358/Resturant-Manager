@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Component/Navbar";
 import Hero from "./Component/HomeSection/HeroSection/Hero";
 import Featurescards from "./Component/FeaturesSection/Featurescards";
+import About from "./Component/AboutSection/About";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <div className="bg-gray-100">
         <Hero />
         <Featurescards />
+        <About />
       </div>
     </div>
   );
