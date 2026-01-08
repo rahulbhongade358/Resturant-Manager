@@ -4,7 +4,7 @@ import Aboutright from "./RightSection/Aboutright";
 
 const About = () => {
   return (
-    <div className="flex">
+    <div className="flex mt-30 m-20">
       <Aboutleft />
       <Aboutright />
     </div>

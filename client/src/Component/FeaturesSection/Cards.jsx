@@ -1,18 +1,27 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+const cardVariant = {
+  hidden: {
+    opacity: 0,
+    y: 60,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
 const Cards = ({ props }) => {
   const { icon, title, info } = props;
   const Icon = icon;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.9, ease: "easeIn" }}
-      className=" m-10  flex justify-evenly"
-    >
+    <motion.div variants={cardVariant} className="flex justify-center">
       <div
         className="
           group

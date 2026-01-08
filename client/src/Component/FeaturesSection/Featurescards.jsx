@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import Cards from "./Cards";
 import {
   Headset,
@@ -6,6 +7,15 @@ import {
   ShoppingCart,
   UtensilsCrossed,
 } from "lucide-react";
+
+const containerVariant = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.25, // ⭐ one-by-one delay
+    },
+  },
+};
 
 const Featurescards = () => {
   const cardsdata = [
@@ -32,11 +42,17 @@ const Featurescards = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  px-4">
+    <motion.div
+      variants={containerVariant}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-6 m-20 mt-30"
+    >
       {cardsdata.map((card, index) => (
         <Cards key={index} props={card} />
       ))}
-    </div>
+    </motion.div>
   );
 };
 
