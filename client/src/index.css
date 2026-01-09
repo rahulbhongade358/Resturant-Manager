@@ -12,3 +12,10 @@
          text-sm font-semibold transition
          active:bg-orange-600;
 }
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

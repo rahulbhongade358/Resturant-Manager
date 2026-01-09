@@ -17,7 +17,7 @@ const Rightsection = () => {
         alt="Food"
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-        className="w-52 sm:w-64 md:w-80 lg:w-[420px] relative z-10"
+        className="w-[420px] sm:w-[420px] md:w-[420px] lg:w-[520px] relative z-10"
       />
     </motion.div>
   );

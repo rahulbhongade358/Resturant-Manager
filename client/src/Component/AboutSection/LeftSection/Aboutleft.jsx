@@ -27,68 +27,27 @@ const Aboutleft = () => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className="w-full p-4 sm:p-6"
+      className="w-full"
     >
-      <div
-        className="
-          grid
-          grid-cols-1
-          sm:grid-cols-2
-          sm:grid-rows-2
-          gap-4
-        "
-      >
-        {/* Top Left - Large */}
-        <motion.div variants={item} className="h-56 sm:h-52">
-          <img
-            src="https://img.freepik.com/premium-photo/manchurian-hakka-schezwan-noodles-popular-indochinese-food-served-bowl-selective-focus_466689-34621.jpg"
-            alt=""
-            className="w-full h-full object-cover rounded-xl"
-          />
-        </motion.div>
-
-        {/* Top Right - Small */}
-        <motion.div variants={item} className="relative h-56 sm:h-auto">
-          <div
-            className="
-              w-full h-full
-              sm:absolute sm:bottom-0
-              sm:h-[75%] sm:w-[75%]
-            "
+      <div className="grid grid-cols-2 gap-4 max-w-md mx-auto lg:max-w-none">
+        {[
+          "https://img.freepik.com/premium-photo/manchurian-hakka-schezwan-noodles-popular-indochinese-food-served-bowl-selective-focus_466689-34621.jpg",
+          "https://i.ytimg.com/vi/NfQ7p_LzpUA/hq720.jpg",
+          "https://thumbs.dreamstime.com/b/triple-schezwan-fried-rice-lip-smacking-complete-meal-combination-rice-chicken-egg-crispy-fried-noodles-served-223918658.jpg",
+          "https://www.shutterstock.com/image-photo/chicken-lollipop-dry-6-pieces-600nw-1936368526.jpg",
+        ].map((img, i) => (
+          <motion.div
+            key={i}
+            variants={item}
+            className="aspect-square overflow-hidden rounded-2xl shadow-lg border border-gray-200 group"
           >
             <img
-              src="https://i.ytimg.com/vi/NfQ7p_LzpUA/hq720.jpg"
+              src={img}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               alt=""
-              className="w-full h-full object-cover rounded-xl"
             />
-          </div>
-        </motion.div>
-
-        {/* Bottom Left - Small */}
-        <motion.div variants={item} className="relative h-56 sm:h-auto">
-          <div
-            className="
-              w-full h-full
-              sm:absolute sm:left-10
-              sm:h-[75%] sm:w-[75%]
-            "
-          >
-            <img
-              src="https://thumbs.dreamstime.com/b/triple-schezwan-fried-rice-lip-smacking-complete-meal-combination-rice-chicken-egg-crispy-fried-noodles-served-223918658.jpg"
-              alt=""
-              className="w-full h-full object-cover rounded-xl"
-            />
-          </div>
-        </motion.div>
-
-        {/* Bottom Right - Large */}
-        <motion.div variants={item} className="h-56 sm:h-52">
-          <img
-            src="https://www.shutterstock.com/image-photo/chicken-lollipop-dry-6-pieces-600nw-1936368526.jpg"
-            alt=""
-            className="w-full h-full object-cover rounded-xl"
-          />
-        </motion.div>
+          </motion.div>
+        ))}
       </div>
     </motion.div>
   );

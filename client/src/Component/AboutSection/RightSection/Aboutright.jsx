@@ -32,26 +32,23 @@ const item = {
 
 const Aboutright = () => {
   return (
-    <section className=" text-black px-6 sm:px-10 lg:px-24 py-20">
+    <section className="w-full text-black">
       <motion.div
         variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
-        className="max-w-6xl"
+        className="max-w-xl"
       >
-        {/* Heading */}
         <motion.h1
           variants={item}
-          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-8"
+          className="text-4xl sm:text-5xl font-extrabold mb-6"
         >
           About <span className="text-amber-400">Us</span>
         </motion.h1>
-
-        {/* Description */}
         <motion.p
           variants={item}
-          className="text-gray-700 text-base sm:text-lg leading-relaxed max-w-3xl"
+          className="text-gray-600 text-base sm:text-lg leading-relaxed"
         >
           We create unforgettable dining experiences by combining fresh
           ingredients, authentic recipes, and a passion for excellence.
@@ -59,20 +56,18 @@ const Aboutright = () => {
 
         <motion.p
           variants={item}
-          className="text-gray-700 text-base sm:text-lg leading-relaxed max-w-3xl mt-4"
+          className="text-gray-600 text-base sm:text-lg leading-relaxed mt-4"
         >
           Our journey is built on trust, taste, and the love of our customers
           who inspire us every single day.
         </motion.p>
 
-        {/* Stats Cards */}
         <motion.div
           variants={item}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-15 mt-14"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12"
         >
-          {/* Experience */}
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 flex items-center gap-2 hover:border-amber-400 transition">
-            <p className="text-5xl sm:text-6xl font-extrabold text-amber-400">
+          <div className="rounded-2xl p-6 bg-white shadow-md flex items-center gap-5 hover:shadow-xl transition">
+            <p className="text-5xl font-extrabold text-amber-400">
               <AnimatedNumber value={15} />
             </p>
             <div>
@@ -83,9 +78,8 @@ const Aboutright = () => {
             </div>
           </div>
 
-          {/* Chefs */}
-          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 flex items-center gap-6 hover:border-amber-400 transition">
-            <p className="text-5xl sm:text-6xl font-extrabold text-amber-400">
+          <div className="rounded-2xl p-6 bg-white shadow-md flex items-center gap-5 hover:shadow-xl transition">
+            <p className="text-5xl font-extrabold text-amber-400">
               <AnimatedNumber value={4} />
             </p>
             <div>
