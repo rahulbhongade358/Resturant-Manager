@@ -12,10 +12,28 @@
          text-sm font-semibold transition
          active:bg-orange-600;
 }
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.25s ease-out;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+html {
+  scroll-behavior: smooth;
 }
