@@ -28,7 +28,6 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-slate-900 shadow-sm text-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
           <Link
             to="/"
             className="flex items-center gap-2 text-xl font-bold text-amber-600"
@@ -36,8 +35,6 @@ const Navbar = () => {
             <UtensilsCrossed className="w-7 h-7" />
             Golden Dragon
           </Link>
-
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-7 text-sm font-medium">
             <Link to="/" className={navLink}>
               Home
@@ -96,15 +93,11 @@ const Navbar = () => {
               </button>
             )}
           </div>
-
-          {/* Mobile Toggle */}
           <button className="md:hidden" onClick={() => setOpen(!open)}>
             {open ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
       {open && (
         <div className="md:hidden bg-slate-900 text-white  border-t shadow-lg animate-slideDown">
           <div className="flex flex-col items-center gap-4 px-6 py-6 text-sm font-medium">
