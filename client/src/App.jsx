@@ -4,6 +4,8 @@ import Hero from "./Component/HomeSection/HeroSection/Hero";
 import Featurescards from "./Component/FeaturesSection/Featurescards";
 import About from "./Component/AboutSection/About";
 import Food from "./Component/FoodSection/Food";
+import Work from "./Component/WorkSection/Work";
+import Testimonials from "./Component/Testimonals/Testimonals";
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
         <Featurescards />
         <About />
         <Food />
+        <Work />
+        <Testimonials />
       </div>
     </div>
   );
